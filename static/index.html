@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Norma tablet</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .wrap {
+            display: block;
+            text-align: center;
+            padding: 2em 1em;
+        }
+        h1 {
+            font-size: 2em;
+            margin: 0 0 1em 0;
+        }
+        button {
+            font-size: 1.4em;
+            padding: 0.6em 1.4em;
+            background: #4a90e2;
+            color: #fff;
+            border: 0;
+            border-radius: 0.4em;
+        }
+        #status {
+            margin-top: 1.2em;
+            font-size: 1.1em;
+            min-height: 1.4em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Norma</h1>
+        <button id="tap" onclick="handleClick()">Tryk her</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function handleClick() {
+            var status = document.getElementById('status');
+            var now = new Date();
+            status.innerHTML = 'Senest trykket: ' + now.toLocaleTimeString();
+        }
+    </script>
+</body>
+</html>

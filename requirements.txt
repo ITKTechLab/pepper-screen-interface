@@ -1,0 +1,2 @@
+# Ingen eksterne dependencies — hardware-proxy-service bruger udelukkende
+# Python-stdlib (http.server, socketserver, argparse, pathlib).
