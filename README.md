@@ -28,11 +28,27 @@ Lytter som default på `0.0.0.0:5000`. Skift port med `--port`:
 py -3.11 app.py --port 8080
 ```
 
+Angiv bridge-host og -port hvis norma-robot-bridge kører et andet sted:
+
+```powershell
+py -3.11 app.py --bridge-host localhost --bridge-port 8080
+```
+
 Eller bind til en specifik adresse:
 
 ```powershell
 py -3.11 app.py --host 127.0.0.1 --port 5000
 ```
+
+### Start med automatisk tablet-åbning
+
+Hvis du allerede har en lokal bridge kørende på `localhost:8080`, kan du bruge det nye startscript fra `scripts/start-pepper-local.sh`:
+
+```bash
+scripts/start-pepper-local.sh --operator-ip 192.168.1.42 --bridge-port 8080
+```
+
+Når scriptet kører, starter det proxyen og sender `show_tablet_url` til bridge'en med den URL, som Pepper skal åbne.
 
 ## Konfigurér Norma til at åbne siden
 
