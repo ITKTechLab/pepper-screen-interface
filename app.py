@@ -1,7 +1,9 @@
-"""Lokal HTTP-service der serverer Norma-tablet-siden.
+"""Lokal HTTP-service der serverer en statisk tablet-side til Pepper.
 
-Norma's tablet aabnes via bridge-kommandoen show_tablet_url med
-operator-maskinens LAN-adresse, fx http://192.168.1.42:5000/.
+Pepper's tablet aabnes via bridge-kommandoen ``show_tablet_url`` med
+operator-maskinens LAN-adresse, fx http://192.168.1.42:5000/. Servicen
+proxy'er ogsaa POSTs paa /api/command videre til pepper-robot-bridge saa
+HTML-siden kan kalde robotten uden CORS-bekymringer.
 """
 import argparse
 import http.server
@@ -76,19 +78,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Norma tablet static server")
+    parser = argparse.ArgumentParser(description="Pepper tablet static server + bridge proxy")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument(
         "--bridge-host",
         default=DEFAULT_BRIDGE_HOST,
-        help="Host for norma-robot-bridge",
+        help="Host for pepper-robot-bridge",
     )
     parser.add_argument(
         "--bridge-port",
         type=int,
         default=DEFAULT_BRIDGE_PORT,
-        help="Port for norma-robot-bridge",
+        help="Port for pepper-robot-bridge",
     )
     args = parser.parse_args()
 

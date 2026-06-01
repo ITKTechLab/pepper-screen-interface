@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Norma tablet</title>
+    <title>Pepper tablet</title>
     <style>
         html, body {
             margin: 0;
@@ -61,73 +61,22 @@
 </head>
 <body>
     <div class="wrap">
-        <h1>Norma Control</h1>
+        <h1>Pepper Control</h1>
         <div>
-            <button onclick="sayHello()">Sig hej</button>
-            <button onclick="playGesture()">Spil gesture</button>
-            <button onclick="hideTablet()">Skjul tablet</button>
-            <button onclick="getStatus()">Hent status</button>
+            <button onclick="Commands.sayHello()">Say hello</button>
+            <button onclick="Commands.playGesture()">Play gesture</button>
+            <button onclick="Commands.hideTablet()">Hide tablet</button>
+            <button onclick="Commands.getStatus()">Status</button>
         </div>
         <div>
-            <input id="customText" type="text" placeholder="Skriv tekst til Norma" />
+            <input id="customText" type="text" placeholder="Write text for Pepper" />
         </div>
         <div>
-            <button onclick="sayText()">Sig tekst</button>
+            <button onclick="Commands.sayText()">Say text</button>
         </div>
         <div id="status">Status vises her...</div>
     </div>
 
-    <script>
-        function setStatus(value) {
-            var status = document.getElementById('status');
-            status.textContent = value;
-        }
-
-        function call(command, params) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/command', true);
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState !== 4) {
-                    return;
-                }
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    try {
-                        var data = JSON.parse(xhr.responseText);
-                        setStatus(JSON.stringify(data, null, 2));
-                    } catch (e) {
-                        setStatus('Ugyldigt svar fra bridge: ' + xhr.responseText);
-                    }
-                } else {
-                    setStatus('Fejl ' + xhr.status + ': ' + xhr.responseText);
-                }
-            };
-
-            xhr.send(JSON.stringify({command: command, params: params || {}}));
-            setStatus('Sender ' + command + '...');
-        }
-
-        function sayHello() {
-            call('say', {text: 'Hej Norma'});
-        }
-
-        function playGesture() {
-            call('play_gesture', {gesture_name: 'hello'});
-        }
-
-        function hideTablet() {
-            call('hide_tablet', {});
-        }
-
-        function getStatus() {
-            call('get_status', {});
-        }
-
-        function sayText() {
-            var input = document.getElementById('customText');
-            call('say', {text: input.value || 'Hej Norma'});
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
