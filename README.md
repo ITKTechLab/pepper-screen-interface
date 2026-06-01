@@ -1,6 +1,6 @@
 # pepper-screen-interface
 
-Letvægts lokal HTTP-service der serverer en statisk tablet-side til **Pepper/NAO** + proxy'er kommandoer videre til [pepper-robot-bridge](https://github.com/bakspace-itk/pepper-robot-bridge). Servicen lytter på `0.0.0.0` så Peppers indbyggede tablet kan tilgå siden over LAN'et fra operator-maskinen.
+Letvægts lokal HTTP-service der serverer en statisk tablet-side til **Pepper/NAO** + proxy'er kommandoer videre til [pepper-robot-bridge](https://github.com/ITKTechLab/pepper-robot-bridge). Servicen lytter på `0.0.0.0` så Peppers indbyggede tablet kan tilgå siden over LAN'et fra operator-maskinen.
 
 Dette repo indeholder også **quickstart-scripts** der starter bridge + screen + sender `show_tablet_url` til robotten i ét greb — det er projektets indgangsdør for nye operatører.
 
@@ -15,7 +15,7 @@ Ingen frameworks, ingen byggeprocess, kun Python stdlib + ES5 i browseren.
 ## Forudsætninger
 
 - Python 3.11+ (kun stdlib, ingen pip-deps)
-- [pepper-robot-bridge](https://github.com/bakspace-itk/pepper-robot-bridge) tilgængelig — typisk som søstermappe (`../pepper-robot-bridge`) med en aktiv `.venv27` der har `pepper_bridge` installeret
+- [pepper-robot-bridge](https://github.com/ITKTechLab/pepper-robot-bridge) tilgængelig — typisk som søstermappe (`../pepper-robot-bridge`) med en aktiv `.venv27` der har `pepper_bridge` installeret
 - Operator-maskinen og Peppers tablet skal være på samme LAN
 
 ## Quickstart
