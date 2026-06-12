@@ -118,7 +118,7 @@ if [[ "$start_bridge" == true ]]; then
         cd "$bridge_dir"
         # shellcheck disable=SC1090
         source "$activator" >/dev/null
-        exec pepper-bridge --robot-ip "$robot_ip" --host localhost --port "$bridge_port"
+        exec python "$bridge_dir/.venv27/bin/pepper-bridge" --robot-ip "$robot_ip" --host localhost --port "$bridge_port"
     ) >"$proxy_dir/logs/bridge.log" 2>&1 &
     bridge_pid=$!
 fi
