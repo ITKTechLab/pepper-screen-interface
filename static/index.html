@@ -3,78 +3,293 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pepper tablet</title>
+    <title>Norma Control</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             min-height: 100%;
             font-family: Arial, sans-serif;
-            background: #1a1a2e;
+            background: linear-gradient(135deg, #0f1c3a 0%, #2a4d8f 100%);
             color: #fff;
+        }
+        body {
+            zoom: 1.25;
         }
         .wrap {
-            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 1.2em 18.5em 2em 1.2em;
             text-align: center;
-            padding: 2em 1em;
+            box-sizing: border-box;
+        }
+        .hero {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 24px;
+            padding: 1.2em;
+            margin-bottom: 1.2em;
+        }
+        .brand-banner {
+            display: block;
+            width: 490px;
+            max-width: 92%;
+            margin: 0 auto 0.9em auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 14px;
+            padding: 0.4em 0.7em;
+            box-sizing: border-box;
+        }
+        .brand-banner img {
+            display: block;
+            width: 100%;
+            height: auto;
         }
         h1 {
-            font-size: 2em;
-            margin: 0 0 1em 0;
+            font-size: 2.4em;
+            margin: 0 0 0.2em 0;
+        }
+        p {
+            margin: 0;
+            font-size: 1em;
+            opacity: 0.92;
+        }
+        .main-controls {
+            margin-top: 1em;
+        }
+        .main-controls:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .actions {
+            width: 100%;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .layer {
+            border-radius: 22px;
+            padding: 0.4em 0;
+            margin-bottom: 1em;
+            text-align: center;
+        }
+        .layer-green {
+            min-height: 0;
+        }
+        .layer-red {
+            min-height: 0;
+        }
+        .layer-pink {
+            min-height: 0;
+        }
+        .layer-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9em;
+        }
+        .layer-pink .layer-buttons {
+            grid-template-columns: 1fr;
+        }
+        .volume-panel {
+            position: fixed;
+            right: 0.8em;
+            top: 1.1em;
+            width: 16em;
+            margin-top: 1em;
+            text-align: left;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 0.9em;
+            z-index: 20;
+        }
+        .side-tools {
+            margin-top: 0.8em;
+            border-top: 1px solid rgba(255,255,255,0.22);
+            padding-top: 0.7em;
+        }
+        .side-tools-title {
+            margin: 0 0 0.5em 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .side-tools .mini-btn {
+            min-height: 44px;
+            font-size: 0.95em;
+            padding: 0.6em 0.8em;
+            margin-bottom: 0.5em;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #355b89 0%, #24456f 100%);
+        }
+        .volume-panel h2 {
+            margin: 0 0 0.4em 0;
+            font-size: 1.1em;
+        }
+        .volume-panel .hint {
+            margin: 0 0 0.8em 0;
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        .unlock-btn {
+            width: 100%;
+            min-height: 54px;
+            border-radius: 12px;
+            margin: 0 0 0.7em 0;
+            font-size: 1em;
+            background: linear-gradient(135deg, #3d6290 0%, #274a77 100%);
+        }
+        .volume-controls {
+            display: none;
+        }
+        .volume-controls.visible {
+            display: block;
+        }
+        .step-row {
+            margin-bottom: 0.6em;
+            text-align: center;
+        }
+        .step-row button {
+            width: 100%;
+            min-height: 56px;
+            font-size: 1.2em;
+            margin: 0 0 0.5em 0;
+            display: block;
+        }
+        .volume-panel p {
+            margin: 0 0 0.6em 0;
+            font-size: 0.95em;
+            opacity: 0.92;
+        }
+        .volume-value {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: 0.3em;
+        }
+        #volumeSlider {
+            width: 100%;
+            margin: 0.4em 0 0.8em 0;
+        }
+        .volume-panel button {
+            width: 100%;
+            min-height: 60px;
+            font-size: 1em;
         }
         button {
-            font-size: 1.2em;
-            padding: 0.8em 1.2em;
-            background: #4a90e2;
+            font-size: 1.35em;
+            padding: 1em 1.2em;
+            background: linear-gradient(135deg, #4a90e2 0%, #2f6fb3 100%);
             color: #fff;
             border: 0;
-            border-radius: 0.4em;
-            margin: 0.4em;
-            min-width: 160px;
+            border-radius: 16px;
+            min-height: 104px;
             cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+        }
+        .layer .primary-action {
+            font-size: 2.05em;
+            font-weight: bold;
+            min-height: 117px;
+            padding: 1.08em 1.26em;
+        }
+        .layer-green .primary-action {
+            background: linear-gradient(135deg, #38b56a 0%, #238950 100%);
+        }
+        .layer-red .primary-action {
+            background: linear-gradient(135deg, #d65252 0%, #ad3737 100%);
+        }
+        .layer-pink .primary-action {
+            background: linear-gradient(135deg, #f37ab0 0%, #de5f96 100%);
+        }
+        button:hover {
+            transform: translateY(-2px);
         }
         input[type="text"] {
             width: 100%;
-            max-width: 320px;
-            padding: 0.8em;
-            margin-top: 1em;
-            border-radius: 0.4em;
-            border: 1px solid #4a90e2;
-            background: #0f1340;
+            max-width: 100%;
+            padding: 1.15em;
+            margin-top: 0;
+            border-radius: 0.6em;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.2);
             color: #fff;
-            font-size: 1em;
+            font-size: 1.5em;
+            box-sizing: border-box;
+        }
+        .say-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8em;
+            max-width: 720px;
+            margin: 0 auto;
         }
         #status {
-            margin-top: 1.2em;
-            font-size: 0.95em;
-            min-height: 6em;
+            margin-top: 0.8em;
+            font-size: 0.9em;
+            min-height: 6.5em;
             white-space: pre-wrap;
             text-align: left;
-            max-width: 560px;
-            margin-left: auto;
-            margin-right: auto;
-            background: rgba(255,255,255,0.05);
-            padding: 1em;
-            border-radius: 0.5em;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            background: rgba(255,255,255,0.12);
+            padding: 0.8em;
+            border-radius: 0.7em;
         }
     </style>
 </head>
 <body>
     <div class="wrap">
-        <h1>Pepper Control</h1>
-        <div>
-            <button onclick="Commands.sayHello()">Say hello</button>
-            <button onclick="Commands.playGesture()">Play gesture</button>
-            <button onclick="Commands.hideTablet()">Hide tablet</button>
-            <button onclick="Commands.getStatus()">Status</button>
+        <div class="hero">
+            <div class="brand-banner">
+                <img src="itk-logo.png" alt="ITK logo" />
+            </div>
+            <h1>Norma Control</h1>
+            <p>Tryk på en handling for at få Norma til at reagere.</p>
         </div>
-        <div>
-            <input id="customText" type="text" placeholder="Write text for Pepper" />
+        <div class="main-controls">
+            <div class="actions">
+                <div class="layer layer-green">
+                    <div class="layer-buttons">
+                        <button class="primary-action" onclick="Commands.sayHello()">Sig hej</button>
+                        <button class="primary-action" onclick="Commands.playGesture()">Afspil gestus</button>
+                    </div>
+                </div>
+
+                <div class="layer layer-red">
+                    <div class="say-row">
+                        <button class="primary-action" onclick="Commands.sayText()">Sig tekst</button>
+                        <input id="customText" type="text" placeholder="Skriv noget til Norma" />
+                    </div>
+                </div>
+
+                <div class="layer layer-pink">
+                    <div class="layer-buttons">
+                        <button class="primary-action" onclick="window.location.href='emotes.html'">Gå til emoter</button>
+                    </div>
+                </div>
+            </div>
+            <div class="volume-panel">
+                <h2>Lydniveau</h2>
+                <p class="hint">Hold knappen nede i 3 sekunder for at aabne lydkontrol.</p>
+                <button id="volumeUnlock" class="unlock-btn" type="button">Hold for lydkontrol</button>
+                <div id="volumeControls" class="volume-controls">
+                    <p>Norma stemme: <span id="volumeValue" class="volume-value">100%</span></p>
+                    <div class="step-row">
+                        <button type="button" onclick="Commands.decreaseVolume()">-10%</button>
+                        <button type="button" onclick="Commands.increaseVolume()">+10%</button>
+                    </div>
+                    <input id="volumeSlider" type="range" min="0" max="100" value="100" oninput="Commands.setVolume(this.value)" onchange="Commands.setVolume(this.value)" />
+                    <button type="button" onclick="Commands.sayVolumeSample()">Test lyd</button>
+                    <button type="button" onclick="Commands.lockVolumeControls()">Skjul lydkontrol</button>
+                </div>
+                <div class="side-tools">
+                    <p class="side-tools-title">System</p>
+                    <button class="mini-btn" type="button" onclick="Commands.getStatus()">Status</button>
+                </div>
+                <div id="status">Status vises her...</div>
+            </div>
         </div>
-        <div>
-            <button onclick="Commands.sayText()">Say text</button>
-        </div>
-        <div id="status">Status vises her...</div>
     </div>
 
     <script src="app.js"></script>

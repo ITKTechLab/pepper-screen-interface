@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma siger hej">
+  <rect width="220" height="220" rx="24" fill="#eef7ff"/>
+  <circle cx="110" cy="100" r="56" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
+  <rect x="70" y="70" width="80" height="70" rx="20" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
+  <circle cx="90" cy="100" r="7" fill="#2f6fb3"/>
+  <circle cx="130" cy="100" r="7" fill="#2f6fb3"/>
+  <path d="M90 118 Q110 136 130 118" stroke="#2f6fb3" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M76 92 C84 68 138 68 146 92" stroke="#f9c74f" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M80 80 L54 56" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
+  <path d="M140 80 L166 56" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Norma Control</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f1c3a 0%, #2a4d8f 100%);
+            color: #fff;
+        }
+        body {
+            zoom: 1.25;
+        }
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2em 1em 3em;
+            text-align: center;
+        }
+        .hero {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 24px;
+            padding: 1em 1em 1.2em;
+            margin-bottom: 1em;
+        }
+        h1 {
+            font-size: 2.1em;
+            margin: 0 0 0.2em 0;
+        }
+        p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        .grid {
+            margin-top: 1em;
+            overflow: hidden;
+        }
+        .action-card {
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 18px;
+            padding: 1em;
+            width: 47%;
+            float: left;
+            margin: 1.5%;
+            min-height: 250px;
+            display: block;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .action-card img {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 0.7em auto;
+            display: block;
+        }
+        .action-card span {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .action-card small {
+            margin-top: 0.35em;
+            opacity: 0.85;
+        }
+        .back {
+            margin-top: 1em;
+            background: linear-gradient(135deg, #2d4a6b 0%, #18324f 100%);
+            border: 0;
+            color: #fff;
+            border-radius: 16px;
+            padding: 1em 1.2em;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 1.2em;
+            font-size: 0.95em;
+            min-height: 7em;
+            white-space: pre-wrap;
+            text-align: left;
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255,255,255,0.12);
+            padding: 1em;
+            border-radius: 0.7em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="hero">
+            <h1>Norma Control</h1>
+            <p>Tryk på et emote og se, hvordan Norma reagerer.</p>
+        </div>
+        <div class="grid">
+            <button class="action-card" onclick="Commands.runEmote('hello')">
+                <img src="images/emotes/hello.svg" alt="Norma siger hej" />
+                <span>Hej</span>
+                <small>Norma siger hej</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('bow')">
+                <img src="images/emotes/bow.svg" alt="Norma bukker" />
+                <span>Buk</span>
+                <small>Norma bukker</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('wave')">
+                <img src="images/emotes/wave.svg" alt="Norma vinker" />
+                <span>Vink</span>
+                <small>Norma vinker</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('thinking')">
+                <img src="images/emotes/thinking.svg" alt="Norma tænker" />
+                <span>Tænk</span>
+                <small>Norma tænker</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('come_on')">
+                <img src="images/emotes/come_on.svg" alt="Norma kalder på dig" />
+                <span>Kom med</span>
+                <small>Norma kalder</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('show')">
+                <img src="images/emotes/show.svg" alt="Norma viser noget" />
+                <span>Vis</span>
+                <small>Norma viser</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('happy')">
+                <img src="images/emotes/happy.svg" alt="Norma er glad" />
+                <span>Glad</span>
+                <small>Norma er glad</small>
+            </button>
+            <button class="action-card" onclick="Commands.runEmote('excited')">
+                <img src="images/emotes/excited.svg" alt="Norma er spændt" />
+                <span>Spændt</span>
+                <small>Norma er spændt</small>
+            </button>
+        </div>
+        <button class="back" onclick="window.location.href='index.html'">Tilbage til hovedmenu</button>
+        <div id="status">Status vises her...</div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

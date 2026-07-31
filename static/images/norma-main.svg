@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Norma robot med smil">
+  <rect width="400" height="260" rx="24" fill="#f5f7fb"/>
+  <circle cx="200" cy="120" r="78" fill="#dff3ff" stroke="#2f6fb3" stroke-width="6"/>
+  <rect x="140" y="82" width="120" height="96" rx="24" fill="#ffffff" stroke="#2f6fb3" stroke-width="6"/>
+  <circle cx="180" cy="120" r="10" fill="#2f6fb3"/>
+  <circle cx="220" cy="120" r="10" fill="#2f6fb3"/>
+  <path d="M190 145 Q200 155 210 145" stroke="#2f6fb3" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <rect x="154" y="66" width="92" height="34" rx="16" fill="#4a90e2"/>
+  <rect x="162" y="182" width="24" height="44" rx="10" fill="#4a90e2"/>
+  <rect x="214" y="182" width="24" height="44" rx="10" fill="#4a90e2"/>
+  <rect x="118" y="126" width="24" height="42" rx="10" fill="#4a90e2"/>
+  <rect x="258" y="126" width="24" height="42" rx="10" fill="#4a90e2"/>
+  <circle cx="200" cy="92" r="9" fill="#f9c74f"/>
+</svg>
