@@ -19,7 +19,7 @@
         .wrap {
             width: 100%;
             margin: 0;
-            padding: 1.2em 18.5em 2em 1.2em;
+            padding: 1.2em 18.5em 6.2em 1.2em;
             text-align: center;
             box-sizing: border-box;
         }
@@ -236,6 +236,23 @@
             padding: 0.8em;
             border-radius: 0.7em;
         }
+        .quick-nav {
+            position: fixed;
+            left: 1em;
+            right: 1em;
+            bottom: 0.8em;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.55em;
+            z-index: 25;
+        }
+        .quick-nav button {
+            min-height: 58px;
+            font-size: 0.95em;
+            padding: 0.55em 0.7em;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2d4a6b 0%, #18324f 100%);
+        }
     </style>
 </head>
 <body>
@@ -290,6 +307,12 @@
                 <div id="status">Status vises her...</div>
             </div>
         </div>
+    </div>
+
+    <div class="quick-nav">
+        <button type="button" onclick="Commands.goHome()">Hovedmenu</button>
+        <button type="button" onclick="Commands.goEmotes()">Emoter</button>
+        <button type="button" onclick="Commands.reloadPage()">Genindlaes side</button>
     </div>
 
     <script src="app.js"></script>

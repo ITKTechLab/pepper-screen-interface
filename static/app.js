@@ -150,6 +150,13 @@
         var vol = clampVolume(currentVolume);
         return '\\vol=' + String(vol) + '\\' + spokenText + '\\rst\\';
     }
+    
+    function safeNavigate(path) {
+        if (!path) {
+            return;
+        }
+        window.location.href = path;
+    }
 
     var BridgeApi = {
         // Send en kommando til /api/command (lokal proxy -> pepper-robot-bridge).
@@ -242,6 +249,15 @@
             BridgeApi.call('say', {text: withVolumeMarkup(option.speech)});
             BridgeApi.call('play_gesture', {gesture_name: option.gesture});
             setStatus('Kører emote: ' + option.label);
+        },
+        goHome: function () {
+            safeNavigate('index.html');
+        },
+        goEmotes: function () {
+            safeNavigate('emotes.html');
+        },
+        reloadPage: function () {
+            window.location.reload(true);
         }
     };
 

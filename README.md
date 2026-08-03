@@ -64,6 +64,16 @@ Hvis bridge allerede kører (fx fra en separat terminal), brug `--skip-bridge`/`
 
 Hvis bridge ligger et andet sted end `../pepper-robot-bridge`, brug `--bridge-path <sti>` / `-BridgePath <sti>`.
 
+## Robust drift (auto-genstart ved crash)
+
+Til offentlige demoopsætninger kan du bruge en resilient wrapper, der genstarter hele flowet automatisk hvis processen crasher:
+
+```bash
+./scripts/run-resilient.sh --robot-ip 192.168.1.155 --operator-ip 192.168.1.143
+```
+
+Wrapperen stopper ikke med det samme ved fejl, men forsøger igen efter kort ventetid. `Ctrl+C` stopper stadig hele setup'et bevidst.
+
 ## Kør komponenterne hver for sig
 
 Kun screen-interface (uden bridge):
