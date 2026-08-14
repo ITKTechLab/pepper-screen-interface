@@ -1,9 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma er glad">
-  <rect width="220" height="220" rx="24" fill="#eef7ff"/>
-  <circle cx="110" cy="100" r="52" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <rect x="74" y="70" width="72" height="62" rx="18" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <circle cx="92" cy="100" r="6" fill="#2f6fb3"/>
-  <circle cx="122" cy="100" r="6" fill="#2f6fb3"/>
-  <path d="M86 122 Q110 146 134 122" stroke="#2f6fb3" stroke-width="5" fill="none" stroke-linecap="round"/>
-  <path d="M95 82 C104 64 116 64 126 82" stroke="#f9c74f" stroke-width="8" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma er glad og smilende">
+  <defs>
+    <linearGradient id="bgHappy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#effaff"/>
+      <stop offset="100%" stop-color="#cde9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="220" rx="24" fill="url(#bgHappy)"/>
+  <ellipse cx="110" cy="192" rx="44" ry="10" fill="#9fc4e8" opacity="0.35"/>
+  <g transform="translate(110,110) scale(1.15) translate(-110,-110)">
+
+  <rect x="78" y="102" width="64" height="62" rx="22" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+  <path d="M84 118 L60 88" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+  <path d="M136 118 L160 88" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+
+  <circle cx="110" cy="68" r="32" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+  <rect x="88" y="50" width="44" height="30" rx="12" fill="#f6fbff" stroke="#2f6fb3" stroke-width="4"/>
+  <circle cx="100" cy="64" r="4" fill="#2f6fb3"/>
+  <circle cx="120" cy="64" r="4" fill="#2f6fb3"/>
+  <path d="M98 73 Q110 86 122 73" fill="none" stroke="#2f6fb3" stroke-width="4" stroke-linecap="round"/>
+
+  <path d="M56 66 C60 57 71 57 75 66 C71 72 60 72 56 66" fill="#f8a3b5"/>
+  <path d="M145 56 C149 47 160 47 164 56 C160 62 149 62 145 56" fill="#f8a3b5"/>
+  </g>
 </svg>

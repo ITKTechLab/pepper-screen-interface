@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bog-001",
+    "title": "TITEL PÅ BOGEN",
+    "author": "Forfatterens navn",
+    "short_pitch": "En kort sætning der beskriver essensen af bogen (bruges i UI'et).",
+    "description": "En længere beskrivelse (1-3 sætninger) som Ollama bruger til at matchendes med brugerens ønsker.",
+    "tags": ["genre1", "genre2", "stemning3"]
+  },
+  {
+    "id": "bog-002",
+    "title": "EKSEMPEL: Den hundredårige der kravlede ud ad vinduet og forsvandt",
+    "author": "Jonas Jonasson",
+    "short_pitch": "En skæv roman med humor og eventyrlige twist.",
+    "description": "En humoristisk fortælling om en gammel mand der forsvinder fra et plejehjem. Historien blander nuværende tid med hans eventyrlige fortid.",
+    "tags": ["humor", "gyser", "eventyr", "nordisk", "underholdning"]
+  },
+  {
+    "id": "bog-003",
+    "title": "EKSEMPEL: Kragepigen",
+    "author": "Erik Axl Sund",
+    "short_pitch": "En mørk krimi med psykologisk dybde og spænding.",
+    "description": "En intens nordisk thriller med efterforskning, hemmeligheder og psykologiske lag. Perfekt for dem der elsker gyserlige og tankeprikkende mordhistorier.",
+    "tags": ["gyser", "krimi", "thriller", "mørk", "psykologisk", "nordisk"]
+  }
+]
+
+// VEJLEDNING:
+// 1. Kopiér denne template
+// 2. Udfyld hver bog fra ChatGPT's liste
+// 3. id: brug bog-001, bog-002, osv. (sequentielt)
+// 4. title: exact titel fra ChatGPT
+// 5. author: exact forfatter fra ChatGPT
+// 6. short_pitch: den korte beskrivelse (bruges på knap i UI)
+// 7. description: længere version som Ollama bruger til matching
+// 8. tags: array af genrer/ord fra ChatGPT's liste (fx ["gyser", "thriller", "nordisk"])
+//
+// VIGTIG: Husk at håndtere danske tegn (æ, ø, å) - gem filen som UTF-8!

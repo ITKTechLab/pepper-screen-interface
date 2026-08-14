@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title id="pageTitleTalk">Snak med Norma</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: radial-gradient(circle at 15% 10%, #3f6aa8 0%, #1f3f70 45%, #112444 100%);
+        }
+        body {
+            zoom: 1.2;
+        }
+        .page {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 1.2em 1em 7.3em;
+            box-sizing: border-box;
+        }
+        .hero {
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 22px;
+            padding: 1.1em;
+            background: rgba(255,255,255,0.12);
+            text-align: center;
+        }
+        .language-switch {
+            position: absolute;
+            top: 0.7em;
+            right: 0.7em;
+            display: flex;
+            gap: 0.35em;
+            z-index: 40;
+        }
+        .language-btn {
+            min-height: 42px;
+            min-width: 52px;
+            font-size: 1.2em;
+            padding: 0.35em 0.45em;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            cursor: pointer;
+        }
+        .language-btn.selected {
+            border: 2px solid #ffffff;
+            background: rgba(255,255,255,0.33);
+        }
+        h1 {
+            margin: 0 0 0.2em 0;
+            font-size: 2.2em;
+        }
+        .subtitle {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.05em;
+        }
+        .recording-zone {
+            margin-top: 1em;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 22px;
+            background: rgba(255,255,255,0.11);
+            padding: 1em;
+            text-align: center;
+        }
+        .record-icon {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 0.6em;
+            border-radius: 50%;
+            border: 6px solid #f9c7cf;
+            background: #b03d50;
+            box-shadow: 0 0 0 rgba(176,61,80,0.55);
+        }
+        .record-icon.recording {
+            animation: pulse 1.4s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,125,147,0.65); }
+            70% { box-shadow: 0 0 0 20px rgba(255,125,147,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,125,147,0); }
+        }
+        .record-btn {
+            width: 100%;
+            max-width: 460px;
+            min-height: 94px;
+            border: 0;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f36d88 0%, #cb3d5a 100%);
+            color: #fff;
+            font-size: 1.55em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.23);
+        }
+        .secondary-btn {
+            width: 100%;
+            max-width: 460px;
+            min-height: 72px;
+            border: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #53a6d8 0%, #2d6da3 100%);
+            color: #fff;
+            font-size: 1.24em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 9px 18px rgba(0,0,0,0.2);
+            margin-top: 0.55em;
+        }
+        .hint {
+            margin: 0.7em auto 0;
+            max-width: 680px;
+            font-size: 0.95em;
+            opacity: 0.88;
+        }
+        .fallback-box {
+            margin-top: 0.9em;
+            text-align: left;
+        }
+        .fallback-box label {
+            display: block;
+            font-size: 0.95em;
+            margin-bottom: 0.35em;
+            opacity: 0.9;
+        }
+        .fallback-box input {
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            font-size: 1.1em;
+            padding: 0.8em;
+        }
+        .recommendation {
+            margin-top: 0.9em;
+            border-radius: 16px;
+            background: rgba(24, 197, 130, 0.16);
+            border: 1px solid rgba(144,255,214,0.3);
+            padding: 0.9em;
+            text-align: left;
+            min-height: 4.4em;
+            white-space: pre-wrap;
+            font-size: 0.96em;
+        }
+        .book-strip-wrap {
+            margin-top: 1.1em;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.26);
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(208,227,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+            box-shadow: inset 0 0 26px rgba(160,220,255,0.18);
+            padding: 0.5em 0;
+            position: relative;
+        }
+        .book-strip-wrap:before,
+        .book-strip-wrap:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 3.2em;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .book-strip-wrap:before {
+            left: 0;
+            background: linear-gradient(90deg, rgba(17,36,68,0.95) 0%, rgba(17,36,68,0) 100%);
+        }
+        .book-strip-wrap:after {
+            right: 0;
+            background: linear-gradient(270deg, rgba(17,36,68,0.95) 0%, rgba(17,36,68,0) 100%);
+        }
+        .book-strip {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            font-size: 1.08em;
+            letter-spacing: 0.02em;
+            color: #eef7ff;
+            text-shadow: 0 0 10px rgba(170,218,255,0.4);
+        }
+        .book-strip.top {
+            animation: slide-left 110s linear infinite;
+        }
+        .book-strip.bottom {
+            animation: slide-right 122s linear infinite;
+            transform: translateX(-100%);
+            opacity: 0.94;
+        }
+        @keyframes slide-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); }
+        }
+        @keyframes slide-right {
+            0% { transform: translateX(-200%); }
+            100% { transform: translateX(0); }
+        }
+        .quick-nav {
+            position: fixed;
+            left: 1em;
+            right: 1em;
+            bottom: 0.8em;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.55em;
+            z-index: 30;
+        }
+        .quick-nav button {
+            min-height: 58px;
+            border-radius: 12px;
+            border: 0;
+            color: #fff;
+            cursor: pointer;
+            background: linear-gradient(135deg, #2d4a6b 0%, #18324f 100%);
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="hero">
+            <div id="languageSwitch" class="language-switch" aria-label="Language selector">
+                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')">🇩🇰</button>
+                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')">🇬🇧</button>
+                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')">🇩🇪</button>
+            </div>
+            <h1 id="talkTitle">Snak med Norma</h1>
+            <p id="talkSubtitle" class="subtitle">Fortæl hvad du er i humør til, så finder jeg en bog.</p>
+        </div>
+
+        <div class="book-strip-wrap">
+            <div id="bookStripTop" class="book-strip top">Indlæser bøger...</div>
+        </div>
+
+        <div class="recording-zone">
+            <div id="recordIcon" class="record-icon"></div>
+            <button id="recordButton" class="record-btn" type="button" onclick="TalkPage.toggleRecording()">Anbefal mig en bog</button>
+            <button id="anotherButton" class="secondary-btn" type="button" onclick="TalkPage.askAnother()">Anbefal en anden bog</button>
+            <p id="recordHint" class="hint">Mikrofon er ikke koblet på endnu. Brug tekstfeltet og knappen.</p>
+
+            <div class="fallback-box">
+                <label id="fallbackLabel" for="fallbackInterest">Interesse (Whisper dev-input indtil mikrofon er koblet på)</label>
+                <input id="fallbackInterest" type="text" placeholder="Eksempel: Jeg vil gerne have en sjov fantasy-bog" />
+            </div>
+
+            <div id="recommendation" class="recommendation">Ingen anbefaling endnu.</div>
+        </div>
+
+        <div class="book-strip-wrap">
+            <div id="bookStripBottom" class="book-strip bottom">Indlæser bøger...</div>
+        </div>
+    </div>
+
+    <div class="quick-nav">
+        <button id="btnHome" type="button" onclick="Commands.goHome()">Hovedmenu</button>
+        <button id="btnEmotesNav" type="button" onclick="Commands.goEmotes()">Emoter</button>
+        <button id="btnReloadPage" type="button" onclick="Commands.reloadPage()">Genindlæs side</button>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="talk.js"></script>
+</body>
+</html>

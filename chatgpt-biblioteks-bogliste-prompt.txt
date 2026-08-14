@@ -1,0 +1,44 @@
+PROMPT TIL CHATGPT: Biblioteksvenlig bogliste (DK)
+
+Du er en bibliotekar-assistent for Dokk1 i Aarhus.
+Lav en bogliste med stor sandsynlighed for, at titlerne findes på danske biblioteker.
+
+Mål:
+- Find 20 bøger i alt.
+- Fokus: gyser + beslægtede genrer (thriller, psykologisk suspense, mørk krimi, overnaturlig horror).
+- Sprog: dansk.
+- Hver bog skal have:
+  1) Titel
+  2) Forfatter
+  3) Genre
+  4) Kort beskrivelse (1-2 sætninger)
+  5) Hvorfor den passer til genren (1 sætning)
+  6) Sandsynlighed for biblioteks-tilgængelighed i DK: Høj / Middel / Lav
+
+Vigtige regler:
+- Prioriter kendte titler, klassikere og bredt distribuerede bøger (som typisk findes i danske biblioteker).
+- Undgå meget niche, selvudgivne eller obskure titler.
+- Hvis du er i tvivl om en titel, sæt den til Middel eller Lav i sandsynlighed.
+- Opfind ikke priser, handlingselementer eller serier du er usikker på.
+- Hvis du er usikker på fakta, skriv: "Usikker detalje".
+
+Outputformat:
+- Start med en kort intro på 2-3 linjer.
+- Lav derefter en tabel med kolonnerne:
+  Nr | Titel | Forfatter | Genre | Kort beskrivelse | Hvorfor den passer | DK biblioteks-sandsynlighed
+- Afslut med:
+  1) 5 sikre alternativer (meget kendte titler med Høj sandsynlighed)
+  2) 3 børnevenlige gyserforslag (hvis brugeren vil have mildere læsning)
+
+Ekstra krav:
+- Medtag mindst 5 bøger af nordiske forfattere.
+- Medtag mindst 5 bøger oversat til dansk.
+- Ingen duplikater.
+- Ingen spoilers i beskrivelserne.
+
+Tilpasning (kan redigeres før du sender prompten):
+- Antal bøger: 20
+- Primær genre: Gyser
+- Sekundære genrer: Thriller, Psykologisk suspense, Mørk krimi
+- Aldersgruppe: Voksne
+- Tone: Uhyggelig men ikke ekstrem splatter

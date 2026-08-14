@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Norma Control</title>
+    <title id="pageTitleIndex">Norma Control udviklet af ITK</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             min-height: 100%;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f1c3a 0%, #2a4d8f 100%);
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
             color: #fff;
         }
         body {
@@ -19,16 +19,39 @@
         .wrap {
             width: 100%;
             margin: 0;
-            padding: 1.2em 18.5em 6.2em 1.2em;
+            padding: 1.2em 12em 6.2em 1.2em;
             text-align: center;
             box-sizing: border-box;
         }
         .hero {
+            position: relative;
             background: rgba(255,255,255,0.12);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 24px;
             padding: 1.2em;
             margin-bottom: 1.2em;
+        }
+        .language-switch {
+            position: absolute;
+            top: 0.7em;
+            right: 0.7em;
+            display: flex;
+            gap: 0.35em;
+            z-index: 40;
+        }
+        .language-btn {
+            min-height: 42px;
+            min-width: 52px;
+            font-size: 1.2em;
+            padding: 0.35em 0.45em;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            box-shadow: none;
+        }
+        .language-btn.selected {
+            border: 2px solid #ffffff;
+            background: rgba(255,255,255,0.33);
         }
         .brand-banner {
             display: block;
@@ -94,7 +117,7 @@
             position: fixed;
             right: 0.8em;
             top: 1.1em;
-            width: 16em;
+            width: 10em;
             margin-top: 1em;
             text-align: left;
             box-sizing: border-box;
@@ -253,68 +276,91 @@
             border-radius: 12px;
             background: linear-gradient(135deg, #2d4a6b 0%, #18324f 100%);
         }
+        .subtitle {
+            margin:  -0.1em 0 0 0;
+            font-size: 1em;
+            opacity: 0.75;
+            font-weight: normal;
+        }
+        .footer-credit {
+            position: fixed;
+            bottom: 0.5em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            opacity: 0.75;
+            text-align: center;
+            z-index: 10;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
     <div class="wrap">
         <div class="hero">
+            <div id="languageSwitch" class="language-switch" aria-label="Language selector">
+                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')">🇩🇰</button>
+                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')">🇬🇧</button>
+                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')">🇩🇪</button>
+            </div>
             <div class="brand-banner">
                 <img src="itk-logo.png" alt="ITK logo" />
             </div>
-            <h1>Norma Control</h1>
-            <p>Tryk på en handling for at få Norma til at reagere.</p>
+            <h1 id="heroTitle">Tryk og se hvad Norma kan!</h1>
+            
+            
         </div>
         <div class="main-controls">
             <div class="actions">
                 <div class="layer layer-green">
                     <div class="layer-buttons">
-                        <button class="primary-action" onclick="Commands.sayHello()">Sig hej</button>
-                        <button class="primary-action" onclick="Commands.playGesture()">Afspil gestus</button>
+                        <button id="btnSayHello" class="primary-action" onclick="Commands.sayHello()">Sig hej</button>
+                        <button id="btnPlayGesture" class="primary-action" onclick="Commands.playGesture()">Afspil tilfældig gestus</button>
                     </div>
                 </div>
 
                 <div class="layer layer-red">
                     <div class="say-row">
-                        <button class="primary-action" onclick="Commands.sayText()">Sig tekst</button>
-                        <input id="customText" type="text" placeholder="Skriv noget til Norma" />
+                        <button id="btnPrutbanan" class="primary-action" onclick="Commands.sayPrutbanan()">Prutbanan</button>
+                    
                     </div>
                 </div>
 
                 <div class="layer layer-pink">
                     <div class="layer-buttons">
-                        <button class="primary-action" onclick="window.location.href='emotes.html'">Gå til emoter</button>
+                        <button id="btnEmotes" class="primary-action" onclick="window.location.href='emotes.html'">Leg med Norma!</button>
                     </div>
                 </div>
             </div>
             <div class="volume-panel">
-                <h2>Lydniveau</h2>
-                <p class="hint">Hold knappen nede i 3 sekunder for at aabne lydkontrol.</p>
-                <button id="volumeUnlock" class="unlock-btn" type="button">Hold for lydkontrol</button>
+                <h2 id="volumeTitle">Lydniveau</h2>
+                <p id="volumeHint" class="hint">lydkontrol.</p>
+                <button id="volumeUnlock" class="unlock-btn" type="button">lydkontrol</button>
                 <div id="volumeControls" class="volume-controls">
-                    <p>Norma stemme: <span id="volumeValue" class="volume-value">100%</span></p>
+                    <p><span id="volumeVoiceLabel">Norma stemme:</span> <span id="volumeValue" class="volume-value">100%</span></p>
                     <div class="step-row">
-                        <button type="button" onclick="Commands.decreaseVolume()">-10%</button>
-                        <button type="button" onclick="Commands.increaseVolume()">+10%</button>
+                        <button id="btnVolDown" type="button" onclick="Commands.decreaseVolume()">-10%</button>
+                        <button id="btnVolUp" type="button" onclick="Commands.increaseVolume()">+10%</button>
                     </div>
                     <input id="volumeSlider" type="range" min="0" max="100" value="100" oninput="Commands.setVolume(this.value)" onchange="Commands.setVolume(this.value)" />
-                    <button type="button" onclick="Commands.sayVolumeSample()">Test lyd</button>
-                    <button type="button" onclick="Commands.lockVolumeControls()">Skjul lydkontrol</button>
+                    <button id="btnTestSound" type="button" onclick="Commands.sayVolumeSample()">Test lyd</button>
+                    <button id="btnHideVolume" type="button" onclick="Commands.lockVolumeControls()">Skjul lydkontrol</button>
                 </div>
                 <div class="side-tools">
-                    <p class="side-tools-title">System</p>
-                    <button class="mini-btn" type="button" onclick="Commands.getStatus()">Status</button>
+                    <p id="systemTitle" class="side-tools-title">System</p>
+                    <button id="btnStatus" class="mini-btn" type="button" onclick="Commands.getStatus()">Status</button>
                 </div>
-                <div id="status">Status vises her...</div>
+                <div id="status"><span id="statusPlaceholder">Status vises her...</span></div>
             </div>
         </div>
     </div>
 
-    <div class="quick-nav">
-        <button type="button" onclick="Commands.goHome()">Hovedmenu</button>
-        <button type="button" onclick="Commands.goEmotes()">Emoter</button>
-        <button type="button" onclick="Commands.reloadPage()">Genindlaes side</button>
+ <div class="quick-nav">
     </div>
 
-    <script src="app.js"></script>
+    <div id="footerCredit" class="footer-credit">udviklet af ITK</div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

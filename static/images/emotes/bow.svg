@@ -1,11 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma bukker">
-  <rect width="220" height="220" rx="24" fill="#eef7ff"/>
-  <circle cx="110" cy="96" r="48" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <rect x="78" y="72" width="64" height="54" rx="18" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <circle cx="92" cy="96" r="6" fill="#2f6fb3"/>
-  <circle cx="122" cy="96" r="6" fill="#2f6fb3"/>
-  <path d="M88 116 Q110 128 132 116" stroke="#2f6fb3" stroke-width="5" fill="none" stroke-linecap="round"/>
-  <path d="M90 140 L70 170" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
-  <path d="M130 140 L150 170" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
-  <path d="M86 66 L54 42" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma bukker respektfuldt">
+  <defs>
+    <linearGradient id="bgBow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#edf8ff"/>
+      <stop offset="100%" stop-color="#d7e9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="220" rx="24" fill="url(#bgBow)"/>
+  <ellipse cx="110" cy="194" rx="46" ry="10" fill="#9dbfdf" opacity="0.35"/>
+  <g transform="translate(110,110) scale(1.15) translate(-110,-110)">
+
+  <rect x="80" y="110" width="62" height="56" rx="20" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+  <path d="M80 118 L58 138" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+  <path d="M142 118 L164 138" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+
+  <g transform="rotate(12 110 94)">
+    <circle cx="110" cy="74" r="30" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+    <rect x="90" y="57" width="40" height="27" rx="11" fill="#f6fbff" stroke="#2f6fb3" stroke-width="4"/>
+    <circle cx="101" cy="69" r="4" fill="#2f6fb3"/>
+    <circle cx="119" cy="69" r="4" fill="#2f6fb3"/>
+    <path d="M100 78 Q110 83 120 78" fill="none" stroke="#2f6fb3" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <path d="M56 72 C70 86 70 104 56 118" fill="none" stroke="#2f6fb3" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <path d="M48 64 C66 83 66 107 48 126" fill="none" stroke="#2f6fb3" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+  </g>
 </svg>

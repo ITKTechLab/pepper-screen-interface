@@ -1,0 +1,50 @@
+[
+  {
+    "id": "bog-001",
+    "title": "Kragepigen",
+    "author": "Erik Axl Sund",
+    "short_pitch": "En mørk og spændende krimi med stærk psykologisk kant.",
+    "description": "En intens nordisk thriller med efterforskning, hemmeligheder og psykologiske lag.",
+    "tags": ["krimi", "spænding", "mørk", "thriller", "nordisk"]
+  },
+  {
+    "id": "bog-002",
+    "title": "Hobbitten",
+    "author": "J.R.R. Tolkien",
+    "short_pitch": "Et klassisk fantasy-eventyr med varme, humor og mod.",
+    "description": "Bilbo drager ud på en rejse fyldt med drager, dværge og venskab.",
+    "tags": ["fantasy", "eventyr", "klassiker", "magi", "rejse"]
+  },
+  {
+    "id": "bog-003",
+    "title": "Factfulness",
+    "author": "Hans Rosling",
+    "short_pitch": "En opløftende fagbog om at forstå verden med data frem for mavefornemmelser.",
+    "description": "En lettilgængelig bog om global udvikling, tal og kritisk tænkning.",
+    "tags": ["fakta", "samfund", "historie", "viden", "læring"]
+  },
+  {
+    "id": "bog-004",
+    "title": "Den hundredårige der kravlede ud ad vinduet og forsvandt",
+    "author": "Jonas Jonasson",
+    "short_pitch": "En skæv og sjov roman med masser af tempo og absurd humor.",
+    "description": "En humoristisk fortælling med historiske nedslag og vilde situationer.",
+    "tags": ["humor", "roman", "let", "sjov", "underholdning"]
+  },
+  {
+    "id": "bog-005",
+    "title": "Børnene fra Sølvgade",
+    "author": "Renée Toft Simonsen",
+    "short_pitch": "En varm og eventyrlig fortælling for børn og familier.",
+    "description": "En børnebog om venskab, fantasi og mod i hverdagen.",
+    "tags": ["børn", "familie", "højtlæsning", "eventyr", "venskab"]
+  },
+  {
+    "id": "bog-006",
+    "title": "Sapiens",
+    "author": "Yuval Noah Harari",
+    "short_pitch": "En stor historisk fortælling om menneskets udvikling.",
+    "description": "En populærvidenskabelig bog om kultur, historie og menneskehedens rejse.",
+    "tags": ["historie", "fakta", "mennesker", "samfund", "kultur"]
+  }
+]

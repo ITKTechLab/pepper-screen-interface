@@ -1,11 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma siger hej">
-  <rect width="220" height="220" rx="24" fill="#eef7ff"/>
-  <circle cx="110" cy="100" r="56" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <rect x="70" y="70" width="80" height="70" rx="20" fill="#fff" stroke="#2f6fb3" stroke-width="6"/>
-  <circle cx="90" cy="100" r="7" fill="#2f6fb3"/>
-  <circle cx="130" cy="100" r="7" fill="#2f6fb3"/>
-  <path d="M90 118 Q110 136 130 118" stroke="#2f6fb3" stroke-width="5" fill="none" stroke-linecap="round"/>
-  <path d="M76 92 C84 68 138 68 146 92" stroke="#f9c74f" stroke-width="8" fill="none" stroke-linecap="round"/>
-  <path d="M80 80 L54 56" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
-  <path d="M140 80 L166 56" stroke="#2f6fb3" stroke-width="8" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Norma siger hej med en varm hilsen">
+  <defs>
+    <linearGradient id="bgHello" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eaf6ff"/>
+      <stop offset="100%" stop-color="#c7e2ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="220" rx="24" fill="url(#bgHello)"/>
+  <ellipse cx="110" cy="192" rx="44" ry="10" fill="#9fc4e8" opacity="0.35"/>
+  <g transform="translate(110,110) scale(1.15) translate(-110,-110)">
+
+  <rect x="78" y="102" width="64" height="62" rx="22" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+  <rect x="90" y="90" width="40" height="18" rx="8" fill="#d8ebff" stroke="#2f6fb3" stroke-width="4"/>
+
+  <circle cx="110" cy="68" r="32" fill="#ffffff" stroke="#2f6fb3" stroke-width="5"/>
+  <rect x="88" y="50" width="44" height="30" rx="12" fill="#f6fbff" stroke="#2f6fb3" stroke-width="4"/>
+  <circle cx="100" cy="64" r="4" fill="#2f6fb3"/>
+  <circle cx="120" cy="64" r="4" fill="#2f6fb3"/>
+  <path d="M99 74 Q110 82 121 74" fill="none" stroke="#2f6fb3" stroke-width="4" stroke-linecap="round"/>
+
+  <path d="M84 120 L60 104" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+  <path d="M136 118 L164 88" fill="none" stroke="#2f6fb3" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="168" cy="85" r="7" fill="#f4fbff" stroke="#2f6fb3" stroke-width="3"/>
+  <path d="M172 74 C180 78 180 90 172 94" fill="none" stroke="#2f6fb3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M179 69 C191 76 191 92 179 99" fill="none" stroke="#2f6fb3" stroke-width="3" stroke-linecap="round"/>
+
+  <path d="M104 134 Q110 140 116 134" fill="none" stroke="#2f6fb3" stroke-width="3" stroke-linecap="round"/>
+  </g>
 </svg>

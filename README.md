@@ -74,6 +74,106 @@ Til offentlige demoopsætninger kan du bruge en resilient wrapper, der genstarte
 
 Wrapperen stopper ikke med det samme ved fejl, men forsøger igen efter kort ventetid. `Ctrl+C` stopper stadig hele setup'et bevidst.
 
+## Drift Uden Copilot (anbefalet i borgerdrift)
+
+For at gore opstart robust og nem for kolleger, er der nu et fast runner-flow med
+start/stop/status-kommandoer og desktop-genveje.
+
+Bridge-delen er indbygget i samme flow: `Start`/`Stop`/`Genstart` styrer baade
+pepper-robot-bridge og screen-interface samlet.
+
+1. Konfigurer robot-IP (kun en gang):
+
+```bash
+cp config/operator.env.example config/operator.env
+# Rediger ROBOT_IP i filen hvis noedvendigt
+```
+
+I denne installation er `config/operator.env` allerede oprettet med `ROBOT_IP=192.168.1.155`.
+
+2. Installer desktop-genveje (kun en gang):
+
+```bash
+./scripts/install-desktop-launchers.sh
+```
+
+Det opretter app-menu-genveje:
+
+- `Norma Nuuk Control` (officiel browser-baseret operatorflade)
+- `Norma Driftpanel (Terminal)` (fallback hvis browser-UI fejler)
+
+Foelgende hjaelpegenveje installeres stadig, men skjules fra app-menuen:
+
+- `Norma Start`
+- `Norma Vis Skaerm`
+- `Norma Status`
+- `Norma Stop`
+
+3. Daglig brug (uden terminal):
+
+- Start (officiel): aabn `Norma Nuuk Control` og brug knapperne der
+- Fallback: aabn `Norma Driftpanel (Terminal)` hvis browser-UI ikke virker paa maskinen
+- Alternativt: aabn `Norma Start`
+- Hvis tablet ikke skifter: aabn `Norma Vis Skaerm`
+- Fejlsoegning: aabn `Norma Status`
+- Nedlukning: aabn `Norma Stop`
+
+4. Valgfrit auto-start ved login:
+
+```bash
+./scripts/install-desktop-launchers.sh --autostart
+```
+
+### Runner-kommandoer (teknisk)
+
+```bash
+./scripts/norma-runner.sh start
+./scripts/norma-runner.sh show
+./scripts/norma-runner.sh status
+./scripts/norma-runner.sh stop
+./scripts/norma-runner.sh logs
+```
+
+Runneren bruger `run-resilient.sh` i baggrunden, saa flowet auto-genstarter ved crash.
+
+## Forstaa Systemet
+
+Hvis du vil forstaa og senere rydde op i loesningen, start her:
+
+1. Laes [docs/system-overblik.md](/home/norma/Normachat/pepper-screen-interface/docs/system-overblik.md)
+2. Start derefter med `scripts/norma-runner.sh`
+3. Gaa saa videre til `scripts/start-local.sh`, `app.py`, tablet-UI og til sidst `Norma Nuuk Control`
+
+## Beta: Snak med Norma (lokal boganbefaler)
+
+Der er nu en lokal beta-side i [static/talk.html](static/talk.html):
+
+- Knap på forsiden: "Snak med Norma"
+- Whisper-flow via `POST /api/transcribe`
+- Lokal anbefaling via Ollama på `POST /api/book-recommendation`
+- Bogkatalog fra `static/data/books.json`
+- Auto-retur til hovedskærm efter 30 sekunder
+
+Denne version er lavet til udvikling uden robot. Mikrofon-input kan kobles på senere,
+men resten af pipeline er klar lokalt:
+
+1. UI sender tekst til `/api/transcribe` (dev-bypass indtil mikrofon er aktiv)
+2. Backend kalder Whisper (når audio-base64 bruges)
+3. Backend sender transskriberet tekst + bogliste til lokal Ollama
+4. UI viser anbefaling og sender taletekst videre til bridge når tilgængelig
+
+Krav for lokal AI:
+
+- Ollama kørende lokalt, fx `ollama serve`
+- En model pull'et lokalt, fx `ollama pull llama3.1:8b`
+- Whisper CLI installeret (kun nødvendigt for reel audio-transskription)
+
+Nye app-argumenter:
+
+- `--ollama-url` (default `http://127.0.0.1:11434/api/generate`)
+- `--ollama-model` (default `llama3.1:8b`)
+- `--whisper-cmd` (default `whisper`)
+
 ## Kør komponenterne hver for sig
 
 Kun screen-interface (uden bridge):
@@ -84,6 +184,12 @@ python3 app.py --port 5000 --bridge-host localhost --bridge-port 8080
 
 # Windows
 py -3 app.py --port 5000 --bridge-host localhost --bridge-port 8080
+```
+
+Lokal udvikling helt uden robot/bridge (mock-svar på `/api/command`):
+
+```bash
+python3 app.py --host 127.0.0.1 --port 5000 --mock-bridge
 ```
 
 Argumenter: `--host`, `--port`, `--bridge-host`, `--bridge-port`.

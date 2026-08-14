@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Norma Control</title>
+    <title id="pageTitleEmotes">Se Normas seje muligheder!</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             min-height: 100%;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f1c3a 0%, #2a4d8f 100%);
+            background: linear-gradient(135deg, #000000 0%, #0a0e16 100%);
             color: #fff;
         }
         body {
@@ -23,11 +23,34 @@
             text-align: center;
         }
         .hero {
+            position: relative;
             background: rgba(255,255,255,0.12);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 24px;
             padding: 1em 1em 1.2em;
             margin-bottom: 1em;
+        }
+        .language-switch {
+            position: absolute;
+            top: 0.7em;
+            right: 0.7em;
+            display: flex;
+            gap: 0.35em;
+            z-index: 40;
+        }
+        .language-btn {
+            min-height: 42px;
+            min-width: 52px;
+            font-size: 1.2em;
+            padding: 0.35em 0.45em;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            box-shadow: none;
+        }
+        .language-btn.selected {
+            border: 2px solid #ffffff;
+            background: rgba(255,255,255,0.33);
         }
         h1 {
             font-size: 2.1em;
@@ -49,28 +72,31 @@
             width: 47%;
             float: left;
             margin: 1.5%;
-            min-height: 250px;
+            min-height: 312px;
             display: block;
             color: #fff;
-            font-size: 1.1em;
+            font-size: 1.38em;
             cursor: pointer;
             box-shadow: 0 10px 24px rgba(0,0,0,0.2);
             text-align: center;
             box-sizing: border-box;
         }
         .action-card img {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             margin: 0 auto 0.7em auto;
             display: block;
         }
         .action-card span {
+            display: block;
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.38em;
         }
         .action-card small {
+            display: block;
             margin-top: 0.35em;
             opacity: 0.85;
+            font-size: 1.5em;
         }
         .back {
             margin-top: 1em;
@@ -106,75 +132,86 @@
             z-index: 25;
         }
         .quick-nav button {
-            min-height: 58px;
-            font-size: 0.95em;
-            padding: 0.55em 0.7em;
+            min-height: 102px;
+            font-size: 1.66em;
+            padding: 0.96em 1.22em;
             border-radius: 12px;
             background: linear-gradient(135deg, #2d4a6b 0%, #18324f 100%);
             border: 0;
             color: #fff;
             cursor: pointer;
         }
+        .footer-credit {
+            position: static;
+            margin: 1.2em auto 7.2em auto;
+            font-size: 1.6em;
+            opacity: 0.75;
+            text-align: center;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
     <div class="wrap">
         <div class="hero">
-            <h1>Norma Control</h1>
-            <p>Tryk på et emote og se, hvordan Norma reagerer.</p>
+            <div id="languageSwitch" class="language-switch" aria-label="Language selector">
+                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')">🇩🇰</button>
+                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')">🇬🇧</button>
+                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')">🇩🇪</button>
+            </div>
+            <h1 id="emotesTitle">Se Norma's seje muligheder!</h1>
+            <p id="emotesSubtitle">Tryk på en knap og se Norma lave ting!</p>
         </div>
         <div class="grid">
             <button class="action-card" onclick="Commands.runEmote('hello')">
-                <img src="images/emotes/hello.svg" alt="Norma siger hej" />
-                <span>Hej</span>
-                <small>Norma siger hej</small>
+                <img id="emoteImg-hello" src="images/emotes/hello.svg" alt="Norma siger hej" />
+                <span id="emoteLabel-hello">Hej</span>
+                <small id="emoteDesc-hello">Norma siger hej</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('bow')">
-                <img src="images/emotes/bow.svg" alt="Norma bukker" />
-                <span>Buk</span>
-                <small>Norma bukker</small>
+                <img id="emoteImg-bow" src="images/emotes/bow.svg" alt="Norma bukker" />
+                <span id="emoteLabel-bow">Buk</span>
+                <small id="emoteDesc-bow">Norma bukker</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('wave')">
-                <img src="images/emotes/wave.svg" alt="Norma vinker" />
-                <span>Vink</span>
-                <small>Norma vinker</small>
+                <img id="emoteImg-wave" src="images/emotes/wave.svg" alt="Norma vinker" />
+                <span id="emoteLabel-wave">Vink</span>
+                <small id="emoteDesc-wave">Norma vinker</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('thinking')">
-                <img src="images/emotes/thinking.svg" alt="Norma tænker" />
-                <span>Tænk</span>
-                <small>Norma tænker</small>
+                <img id="emoteImg-thinking" src="images/emotes/thinking.svg" alt="Norma tænker" />
+                <span id="emoteLabel-thinking">Tænk</span>
+                <small id="emoteDesc-thinking">Norma tænker</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('come_on')">
-                <img src="images/emotes/come_on.svg" alt="Norma kalder på dig" />
-                <span>Kom med</span>
-                <small>Norma kalder</small>
+                <img id="emoteImg-come_on" src="images/emotes/come_on.svg" alt="Norma kalder på dig" />
+                <span id="emoteLabel-come_on">Kom med</span>
+                <small id="emoteDesc-come_on">Norma kalder</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('show')">
-                <img src="images/emotes/show.svg" alt="Norma viser noget" />
-                <span>Vis</span>
-                <small>Norma viser</small>
+                <img id="emoteImg-show" src="images/emotes/show.svg" alt="Norma viser noget" />
+                <span id="emoteLabel-show">Vis</span>
+                <small id="emoteDesc-show">Norma viser</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('happy')">
-                <img src="images/emotes/happy.svg" alt="Norma er glad" />
-                <span>Glad</span>
-                <small>Norma er glad</small>
+                <img id="emoteImg-happy" src="images/emotes/happy.svg" alt="Norma er glad" />
+                <span id="emoteLabel-happy">Glad</span>
+                <small id="emoteDesc-happy">Norma er glad</small>
             </button>
             <button class="action-card" onclick="Commands.runEmote('excited')">
-                <img src="images/emotes/excited.svg" alt="Norma er spændt" />
-                <span>Spændt</span>
-                <small>Norma er spændt</small>
+                <img id="emoteImg-excited" src="images/emotes/excited.svg" alt="Norma er spændt" />
+                <span id="emoteLabel-excited">Spændt</span>
+                <small id="emoteDesc-excited">Norma er spændt</small>
             </button>
+
         </div>
-        <button class="back" onclick="window.location.href='index.html'">Tilbage til hovedmenu</button>
-        <div id="status">Status vises her...</div>
     </div>
 
     <div class="quick-nav">
-        <button type="button" onclick="Commands.goHome()">Hovedmenu</button>
-        <button type="button" onclick="Commands.goEmotes()">Emoter</button>
-        <button type="button" onclick="Commands.reloadPage()">Genindlaes side</button>
-    </div>
+        <button id="btnHome" type="button" onclick="Commands.goHome()">Hovedmenu</button>
 
+    </div>
+    <div id="footerCredit" class="footer-credit">udviklet af ITK</div>
     <script src="app.js"></script>
 </body>
 </html>
