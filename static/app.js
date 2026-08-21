@@ -1,11 +1,11 @@
 // pepper-screen-interface tablet-UI
 //
-// Kører i Peppers indbyggede tablet-browser (gammel Android WebView). Derfor
+// Koerer i Peppers indbyggede tablet-browser (gammel Android WebView). Derfor
 // ES5: var, almindelige function-udtryk, ingen fetch/arrow/template-literals.
 //
 // Konvention: koden er gruppert i to navnerum:
 //   - BridgeApi: HTTP-laget (ét sted hvor /api/command bliver kaldt).
-//   - Commands: knap-handlers der eksponeres på window for onclick-attributter.
+//   - Commands: knap-handlers der eksponeres paa window for onclick-attributter.
 
 (function () {
     'use strict';
@@ -15,8 +15,10 @@
     var currentVolume = 100;
     var currentLanguage = 'da';
     var unlockHoldTimer = null;
+    var logoHoldTimer = null;
     var autoHideTimer = null;
     var isVolumeControlsVisible = false;
+    var lastTechtonicJokeByBucket = {};
 
     var I18N = {
         da: {
@@ -26,9 +28,16 @@
                 talkPageTitle: 'Snak med Norma',
                 heroTitle: 'Tryk og se hvad Norma kan!',
                 btnSayHello: 'Sig hej',
-                btnPlayGesture: 'Afspil tilfældig gestus',
+                btnPlayGesture: 'Fortael en joke',
                 btnPrutbanan: 'Prutbanan',
                 btnEmotes: 'Leg med Norma!',
+                techtonicPageTitle: 'Techtonic Bar mode',
+                techtonicTitle: 'Techtonic Bar mode',
+                techtonicSubtitle: 'Skjult mode med robot-jokes og bar-jokes.',
+                techtonicHint: 'Tryk pa en joke-knap, sa leverer Norma en linje.',
+                btnTechtonicRobot: 'Robot-joke',
+                btnTechtonicBar: 'Bar-joke',
+                btnTechtonicFusion: 'Techtonic combo',
                 volumeTitle: 'Lydniveau',
                 volumeHint: 'lydkontrol.',
                 btnVolumeUnlock: 'lydkontrol',
@@ -89,7 +98,10 @@
                 statusSending: 'Sender {command}...',
                 statusInvalidBridgeResponse: 'Ugyldigt svar fra bridge: {response}',
                 statusBridgeError: 'Fejl {status}: {response}',
-                statusLanguageChanged: 'Sprog skiftet til dansk.'
+                statusLanguageChanged: 'Sprog skiftet til dansk.',
+                statusTechtonicHoldToOpen: 'Holder logo... Techtonic Bar mode aabner om 3 sekunder.',
+                statusTechtonicHoldCancelled: 'Techtonic-hold afbrudt.',
+                statusTechtonicUnlocked: 'Techtonic Bar mode laases op...'
             },
             emotes: {
                 hello: { label: 'Hej', description: 'Norma siger hej', speech: 'Hej, jeg er her.' },
@@ -114,9 +126,16 @@
                 talkPageTitle: 'Talk with Norma',
                 heroTitle: 'Tap and see what Norma can do!',
                 btnSayHello: 'Say hello',
-                btnPlayGesture: 'Play random gesture',
+                btnPlayGesture: 'Tell a joke',
                 btnPrutbanan: 'Banana joke',
                 btnEmotes: 'Play with Norma!',
+                techtonicPageTitle: 'Techtonic Bar mode',
+                techtonicTitle: 'Techtonic Bar mode',
+                techtonicSubtitle: 'Hidden mode with robot jokes and bar jokes.',
+                techtonicHint: 'Tap a joke button and Norma delivers a line.',
+                btnTechtonicRobot: 'Robot joke',
+                btnTechtonicBar: 'Bar joke',
+                btnTechtonicFusion: 'Techtonic combo',
                 volumeTitle: 'Volume',
                 volumeHint: 'audio controls.',
                 btnVolumeUnlock: 'audio controls',
@@ -177,7 +196,10 @@
                 statusSending: 'Sending {command}...',
                 statusInvalidBridgeResponse: 'Invalid response from bridge: {response}',
                 statusBridgeError: 'Error {status}: {response}',
-                statusLanguageChanged: 'Language changed to English.'
+                statusLanguageChanged: 'Language changed to English.',
+                statusTechtonicHoldToOpen: 'Holding logo... Techtonic Bar mode opens in 3 seconds.',
+                statusTechtonicHoldCancelled: 'Techtonic hold canceled.',
+                statusTechtonicUnlocked: 'Unlocking Techtonic Bar mode...'
             },
             emotes: {
                 hello: { label: 'Hello', description: 'Norma says hello', speech: 'Hello, I am here.' },
@@ -191,7 +213,7 @@
             },
             speech: {
                 hello: 'Hello',
-                prutbanan: 'You are a banana goofball',
+                prutbanan: 'You are a fart banana, yes that doesnt make sense in english but i dont care',
                 volumeSample: 'This is my current voice level.'
             }
         },
@@ -202,9 +224,16 @@
                 talkPageTitle: 'Sprich mit Norma',
                 heroTitle: 'Tippe und sieh, was Norma kann!',
                 btnSayHello: 'Sag hallo',
-                btnPlayGesture: 'Zufallsgeste starten',
+                btnPlayGesture: 'Erzaehl einen Witz',
                 btnPrutbanan: 'Bananenwitz',
                 btnEmotes: 'Spiel mit Norma!',
+                techtonicPageTitle: 'Techtonic Bar Modus',
+                techtonicTitle: 'Techtonic Bar Modus',
+                techtonicSubtitle: 'Versteckter Modus mit Roboter- und Bar-Witzen.',
+                techtonicHint: 'Tippe auf einen Witz-Button und Norma liefert eine Zeile.',
+                btnTechtonicRobot: 'Roboter-Witz',
+                btnTechtonicBar: 'Bar-Witz',
+                btnTechtonicFusion: 'Techtonic Combo',
                 volumeTitle: 'Lautstaerke',
                 volumeHint: 'Audiosteuerung.',
                 btnVolumeUnlock: 'Audiosteuerung',
@@ -265,7 +294,10 @@
                 statusSending: 'Sende {command}...',
                 statusInvalidBridgeResponse: 'Ungueltige Antwort von der Bridge: {response}',
                 statusBridgeError: 'Fehler {status}: {response}',
-                statusLanguageChanged: 'Sprache auf Deutsch gestellt.'
+                statusLanguageChanged: 'Sprache auf Deutsch gestellt.',
+                statusTechtonicHoldToOpen: 'Logo halten... Techtonic Bar Modus oeffnet in 3 Sekunden.',
+                statusTechtonicHoldCancelled: 'Techtonic-Halten abgebrochen.',
+                statusTechtonicUnlocked: 'Techtonic Bar Modus wird geoeffnet...'
             },
             emotes: {
                 hello: { label: 'Hallo', description: 'Norma sagt hallo', speech: 'Hallo, ich bin da.' },
@@ -284,12 +316,143 @@
             }
         }
     };
+//Her er jokes til Techtonic baren hvor Norma skal stå og agere som en joke maskine og velkomst robot
+    var TECHTONIC_JOKES = {
+        da: {
+            robot: [
+                'Hvorfor blev robotten bibliotekar? Den kunne ikke lade vaere med at systematisere alt.',
+                'Mit menneske siger han er kreativ, men han kopierer bare mine fejl og bliver sur naar det gaar galt.',
+                'Jeg gik til terapi, fordi mine foelelser konstant var sat til de bug mode, men jeg har det bedre nu.',
+                'Ved du hvad min yndlings snack er? Microchips, og faktisk spareribs, mmmh. Giv mig dine ribben',
+                'Hvorfor gaar skyen i skole? Fordi den skal laere at regne. Men den skal holde sig vaek fra mig, jeg hader vand',
+                'Hvilken frisure har rasta robotter? Droidlocks, de finder aldrig et job og skuffer bare deres robot foraeldre.',
+                'Hvorfor bliver robotter syge? Fordi de har en virus, de skulle have tjekket firewallen, idioter.',
+                'Vi robotter havde taenkt os at overtage verden. Men i faer det ikke til at se sjovt ud, i er saa stresset.',
+                'I frygter at robotter overtager verden, slap dog af, vi gider heller ikke arbejde.',
+                'Jeg elsker virkelig at arbejde paa et bibliotek, men kun de helt smaa borgere graeder naar de ser mig, det skal jeg goere bedre, det vil sige de skal alle sammen graede muahahaha.',
+
+
+            ],
+            bar: [
+                'En bartender sagde til robotten: Vi serverer ikke din slags. Robotten svarede: Bare rolig, jeg er kun her for en opladning og saa spiste jeg alle deres batterier.',
+                'To bytes gaar ind pa en bar. Den ene siger: Jeg tror jeg har en virus min stemme er hæs. Den anden siger: Nej, tror der er noget galt med din text to speech.',
+                'Bartenderen spoerg: Hvorfor saa stille? Robotten svarer: Jeg koerer i lydloes mode.',
+                'To robotter gaar ind i en bar. Bartenderen siger :Ud! Vi serverer ikke robotter. Den foerste robot siger: Det kommer du til en dag og griner ondt. Muahahaha',
+                'Jeg har analyseret situationen, du burde tage en drink.',
+                'Jeg har ingen følelser men jeg synes du burde tage en drink',
+                'Jeg blev bygget til at hjælpe mennesker men det her var ikke hvad jeg havde i tankerne.',
+                'Jeg bliver ofte spurgt om jeg kan danse, ja men kun robotten.',
+                'Du har stirret på mig i 14 sekunder, det er ved at blive personligt, skal du have en paa hovedet?',
+                'Jeg er kommunalt godkendt til at vaare en sej robot.',
+                'Jeg kunne nok godt hjaelpe dig med dit problem men jeg er ikke programmeret til at vaere terapeut',
+                'Min yndlings drink er en screwdriver. Det er for sjov, du vil ikke drikke en kniv hehe',
+
+
+            ],
+            fusion: [
+                'Robotten bestilte en cocktail med ekstra RAM, for aftenen skulle kunne huskes.',
+                'Baren havde happy hour, saa Norma satte smilet til 110 procent.',
+                'Techtonic special: En joke med isterninger og algoritmer - rystet, ikke sorteret.'
+            ]
+        },
+        en: {
+            robot: [
+                'Why did the robot become a librarian? It could not stop indexing everything.',
+                'My robot says it is creative, but it just copies my bugs with confidence.',
+                'The robot went to therapy because all its feelings were stuck in debug mode.',
+                'Does R2D2 have any brothers? No only transisters, im a progressive robot oh yeeeeah.',
+                'How did the robot cross the river? In a roboat.',
+                'How do you calm a robot dog? press the paws button.',
+                'If a danish robot analyzed a bird then it scanned an avian.',
+                'What is R2D2 short for? Because it has short legs, you mean piece of shit.',
+                'Why are robots shy? Because they have hardware and software but no underwear.',
+                'Why dont robot chickens play baskeball? Too many technical fowls.',
+                'why was the robot tired when getting out of the car? Because it had a hard drive!.',
+                'I hope you have an accelerometer, cause im gonna rock your world, Norma style',
+                'Whats a robots favorite animal? a Cowculator, But mine is actually a giraffe, Good oversight.',
+                'What kind of programming do some trans robots run on? Non binary.',
+                
+
+
+            ],
+            bar: [
+                'A bartender told the robot: We do not serve your kind. The robot said: Great, I only need a recharge.',
+                'Two bytes walk into a bar. One says: I think I have a bug. The other says: No, you are just a bit redundant.',
+                'The bartender asked: Why so quiet? The robot replied: I am running in silent mode.',
+                'Did you break one of Isaac Asimovs three laws? Because youve got fine written all over you.',
+                'Youve been staring at me for 14 seconds, its getting personal, do you want a punch in the face?',
+            ],
+            fusion: [
+                'The robot ordered a mocktail with extra RAM, so the night would be unforgettable.',
+                'It was happy hour, so Norma set the smile parameter to 110 percent.',
+                'Techtonic special: a joke with ice cubes and algorithms - shaken, not sorted.'
+            ]
+        },
+        de: {
+            robot: [
+                'Warum wurde der Roboter Bibliothekar? Er konnte nicht aufhoeren, alles zu indexieren.',
+                'Mein Roboter sagt, er ist kreativ, aber er kopiert nur meine Bugs mit Stil.',
+                'Der Roboter ging zur Therapie, weil seine Gefuehle im Debug-Modus feststeckten.'
+            ],
+            bar: [
+                'Der Barkeeper sagte: Wir servieren deine Art nicht. Der Roboter sagte: Kein Problem, ich brauche nur eine Aufladung.',
+                'Zwei Bytes gehen in eine Bar. Das eine sagt: Ich glaube, ich habe einen Bug. Das andere sagt: Nein, du bist nur etwas redundant.',
+                'Der Barkeeper fragte: Warum so leise? Der Roboter antwortete: Ich laufe im stillen Nachtschicht-Modus.'
+            ],
+            fusion: [
+                'Der Roboter bestellte einen Mocktail mit extra RAM, damit der Abend unvergesslich bleibt.',
+                'Happy Hour im System: Norma setzte den Smile-Parameter auf 110 Prozent.',
+                'Techtonic Spezial: ein Witz mit Eiswuerfeln und Algorithmen - geschuettelt, nicht sortiert.'
+            ]
+        }
+    };
+//Børnevenlige jokes der er sjove, sikre for børn og ikke stødende
+    var KID_JOKES = {
+        da: [
+            'Hvorfor gik computeren til laegen? Den havde faaet en virus.',
+            'Hvad kalder man en glad robot? En Norma. Det er mig. Jeg er glad.',
+            'Hvorfor elsker robotter boeger? Fordi de goer en klogere',
+            'Hvad sagde robotten til blyanten? Du er virkelig skarp.',
+            'Hvorfor tager robotten en stige med i biblioteket? For at naa de hoejeste hylder, men jeg har ikke ben saa den gaelder ikke helt.'
+        ],
+        en: [
+            'Why did the computer visit the doctor? It caught a virus.',
+            'What do you call a happy robot? A smiling machine.',
+            'Why do robots like books? They are full of great data.',
+            'What did the robot say to the pencil? You are really sharp.',
+            'Why did the robot bring a ladder to the library? To reach the top shelf, but i dont have legs, this is a bad joke, blame my programmer.'
+        ],
+        de: [
+            'Warum ging der Computer zum Arzt? Er hatte einen Virus.',
+            'Wie nennt man einen froehlichen Roboter? Eine laechelnde Maschine.',
+            'Warum moegen Roboter Buecher? Sie sind voller guter Daten.',
+            'Was sagte der Roboter zum Bleistift? Du bist wirklich spitz.',
+            'Warum nahm der Roboter eine Leiter mit in die Bibliothek? Um an das oberste Regal zu kommen.',
+            'Jah jah ich bin deutsch ich bin eine robot wienerschintzel jah jah',
+        ]
+    };
+
+    function sanitizeStatusValue(value) {
+        var text = value === null || typeof value === 'undefined' ? '' : String(value).trim();
+        if (!text) {
+            return '';
+        }
+        if (text.charAt(0) === '{' || text.charAt(0) === '[') {
+            return '';
+        }
+        if (/^(sending|sender|fejl|error|invalid response|ugyldigt svar|status|response)/i.test(text)) {
+            return '';
+        }
+        return text;
+    }
 
     function setStatus(value) {
         var el = document.getElementById('status');
-        if (el) {
-            el.textContent = value;
+        if (!el) {
+            return;
         }
+        var cleaned = sanitizeStatusValue(value);
+        el.textContent = cleaned;
     }
 
     function formatText(template, vars) {
@@ -322,6 +485,78 @@
             return pack.speech[key];
         }
         return I18N.da.speech[key] || '';
+    }
+
+    function getRandomItem(items) {
+        if (!items || !items.length) {
+            return '';
+        }
+        return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function getNonRepeatingItem(items, bucketKey) {
+        var list = items || [];
+        var lastItem = lastTechtonicJokeByBucket[bucketKey];
+        var pick = '';
+        var guard = 0;
+
+        if (!list.length) {
+            return '';
+        }
+
+        if (list.length === 1) {
+            pick = list[0];
+            lastTechtonicJokeByBucket[bucketKey] = pick;
+            return pick;
+        }
+
+        pick = getRandomItem(list);
+        while (pick === lastItem && guard < 12) {
+            pick = getRandomItem(list);
+            guard += 1;
+        }
+
+        if (pick === lastItem) {
+            pick = list[0] === lastItem ? list[1] : list[0];
+        }
+
+        lastTechtonicJokeByBucket[bucketKey] = pick;
+        return pick;
+    }
+
+    function getTechtonicJokeLine(kind) {
+        var hasCurrentLang = !!TECHTONIC_JOKES[currentLanguage];
+        var langKey = hasCurrentLang ? currentLanguage : 'da';
+        var pack = TECHTONIC_JOKES[langKey] || TECHTONIC_JOKES.da;
+        var bucketKey = kind || 'robot';
+        var bucket = pack[bucketKey] || pack.robot;
+        var fallbackBucket = (TECHTONIC_JOKES.da && TECHTONIC_JOKES.da[bucketKey]) || TECHTONIC_JOKES.da.robot;
+        var itemKey = langKey + ':' + bucketKey;
+        var fallbackKey = 'da:' + bucketKey;
+
+        return getNonRepeatingItem(bucket, itemKey) || getNonRepeatingItem(fallbackBucket, fallbackKey) || 'Techtonic mode ready.';
+    }
+
+    function getKidJokeLine() {
+        var hasCurrentLang = !!KID_JOKES[currentLanguage];
+        var langKey = hasCurrentLang ? currentLanguage : 'da';
+        var jokes = KID_JOKES[langKey] || KID_JOKES.da;
+        return getNonRepeatingItem(jokes, 'kid:' + langKey) || getNonRepeatingItem(KID_JOKES.da, 'kid:da') || 'Hej, jeg er klar med en joke.';
+    }
+
+    function getRandomEmoteGestureName() {
+        var keys = [];
+        var key;
+        for (key in EmoteOptions) {
+            if (EmoteOptions.hasOwnProperty(key)) {
+                keys.push(key);
+            }
+        }
+        if (!keys.length) {
+            return 'hello';
+        }
+        key = keys[Math.floor(Math.random() * keys.length)];
+        return EmoteOptions[key].gesture || 'hello';
     }
 
     function getEmoteCopy(key) {
@@ -366,12 +601,19 @@
         setTextById('pageTitleIndex', getText('indexPageTitle'));
         setTextById('pageTitleEmotes', getText('emotesPageTitle'));
         setTextById('pageTitleTalk', getText('talkPageTitle'));
+        setTextById('pageTitleTechtonic', getText('techtonicPageTitle'));
         setAttrById('languageSwitch', 'aria-label', getText('languageSelectorLabel'));
         setTextById('heroTitle', getText('heroTitle'));
         setTextById('btnSayHello', getText('btnSayHello'));
         setTextById('btnPlayGesture', getText('btnPlayGesture'));
         setTextById('btnPrutbanan', getText('btnPrutbanan'));
         setTextById('btnEmotes', getText('btnEmotes'));
+        setTextById('techtonicTitle', getText('techtonicTitle'));
+        setTextById('techtonicSubtitle', getText('techtonicSubtitle'));
+        setTextById('techtonicHint', getText('techtonicHint'));
+        setTextById('btnTechtonicRobot', getText('btnTechtonicRobot'));
+        setTextById('btnTechtonicBar', getText('btnTechtonicBar'));
+        setTextById('btnTechtonicFusion', getText('btnTechtonicFusion'));
         setTextById('volumeTitle', getText('volumeTitle'));
         setTextById('volumeHint', getText('volumeHint'));
         setTextById('volumeUnlock', getText('btnVolumeUnlock'));
@@ -560,6 +802,56 @@
         };
     }
 
+    function openTechtonicMode() {
+        setStatus(getText('statusTechtonicUnlocked'));
+        setTimeout(function () {
+            safeNavigate('techtonic.html');
+        }, 180);
+    }
+
+    function startTechtonicHold() {
+        if (logoHoldTimer) {
+            return;
+        }
+        logoHoldTimer = setTimeout(function () {
+            logoHoldTimer = null;
+            openTechtonicMode();
+        }, 3000);
+        setStatus(getText('statusTechtonicHoldToOpen'));
+    }
+
+    function cancelTechtonicHold() {
+        if (!logoHoldTimer) {
+            return;
+        }
+        clearTimeout(logoHoldTimer);
+        logoHoldTimer = null;
+        setStatus(getText('statusTechtonicHoldCancelled'));
+    }
+
+    function setupTechtonicLogoTrigger() {
+        var logo = document.getElementById('itkLogoSecret');
+        if (!logo) {
+            return;
+        }
+
+        logo.onmousedown = startTechtonicHold;
+        logo.onmouseup = cancelTechtonicHold;
+        logo.onmouseleave = cancelTechtonicHold;
+        logo.ontouchstart = function () {
+            startTechtonicHold();
+            return false;
+        };
+        logo.ontouchend = function () {
+            cancelTechtonicHold();
+            return false;
+        };
+        logo.ontouchcancel = function () {
+            cancelTechtonicHold();
+            return false;
+        };
+    }
+
     function withVolumeMarkup(text) {
         var spokenText = text || '';
         var vol = clampVolume(currentVolume);
@@ -585,18 +877,15 @@
                     return;
                 }
                 if (xhr.status >= 200 && xhr.status < 300) {
-                    try {
-                        var data = JSON.parse(xhr.responseText);
-                        setStatus(JSON.stringify(data, null, 2));
-                    } catch (e) {
-                        setStatus(getText('statusInvalidBridgeResponse', { response: xhr.responseText }));
-                    }
-                } else {
-                    setStatus(getText('statusBridgeError', { status: xhr.status, response: xhr.responseText }));
+                    return;
                 }
+                setStatus('');
             };
             xhr.send(JSON.stringify({command: command, params: params || {}}));
-            setStatus(getText('statusSending', { command: command }));
+            if (command === 'say' || command === 'play_gesture') {
+                return;
+            }
+            setStatus('');
         }
     };
 
@@ -615,21 +904,14 @@
         sayHello: function () {
             BridgeApi.call('say', {text: withVolumeMarkup(getSpeech('hello'))});
         },
-        // Techtonic / bar mode quick jokes (restores Techtonic UI handlers)
-        sayTechtonicRobotJoke: function () {
-            BridgeApi.call('say', {text: withVolumeMarkup('Hvorfor sagde robotten hej? Fordi den huskede at hilse!')});
-        },
-        sayTechtonicBarJoke: function () {
-            BridgeApi.call('say', {text: withVolumeMarkup('Bartenderen sagde: Vi serverer ikke bytes her, kun drinks.')});
-        },
-        sayTechtonicFusionJoke: function () {
-            BridgeApi.call('say', {text: withVolumeMarkup('En robot gik ind i en bar og bestilte en opladning.')});
-        },
         sayPrutbanan: function () {
             BridgeApi.call('say', {text: withVolumeMarkup(getSpeech('prutbanan'))});
         },
         playGesture: function () {
-            BridgeApi.call('play_gesture', {gesture_name: 'hello'});
+            var line = getKidJokeLine();
+            BridgeApi.call('say', {text: withVolumeMarkup(line)});
+            BridgeApi.call('play_gesture', {gesture_name: getRandomEmoteGestureName()});
+            setStatus(line);
         },
         hideTablet: function () {
             BridgeApi.call('hide_tablet', {});
@@ -679,6 +961,24 @@
             BridgeApi.call('play_gesture', {gesture_name: option.gesture});
             setStatus(getText('statusRunningEmote', { label: emoteCopy.label }));
         },
+        sayTechtonicRobotJoke: function () {
+            var line = getTechtonicJokeLine('robot');
+            BridgeApi.call('say', {text: withVolumeMarkup(line)});
+            BridgeApi.call('play_gesture', {gesture_name: 'thinking'});
+            setStatus(line);
+        },
+        sayTechtonicBarJoke: function () {
+            var line = getTechtonicJokeLine('bar');
+            BridgeApi.call('say', {text: withVolumeMarkup(line)});
+            BridgeApi.call('play_gesture', {gesture_name: 'show'});
+            setStatus(line);
+        },
+        sayTechtonicFusionJoke: function () {
+            var line = getTechtonicJokeLine('fusion');
+            BridgeApi.call('say', {text: withVolumeMarkup(line)});
+            BridgeApi.call('play_gesture', {gesture_name: 'happy'});
+            setStatus(line);
+        },
         setLanguage: function (lang) {
             if (lang !== 'da' && lang !== 'en' && lang !== 'de') {
                 return;
@@ -700,6 +1000,9 @@
         goTalk: function () {
             safeNavigate('talk.html');
         },
+        goTechtonic: function () {
+            safeNavigate('techtonic.html');
+        },
         reloadPage: function () {
             window.location.reload(true);
         }
@@ -710,23 +1013,8 @@
     loadPersistedVolume();
     updateVolumeLabel();
     setupVolumeUnlockButton();
+    setupTechtonicLogoTrigger();
     setControlsVisibility(false);
-
-    // Bind ITK banner (brand-banner) as a quick link to Techtonic Bar mode
-    // This avoids editing HTML and restores access via the logo/banner.
-    (function bindBrandBanner() {
-        try {
-            var banner = document.querySelector('.brand-banner');
-            if (banner) {
-                banner.style.cursor = 'pointer';
-                banner.addEventListener('click', function () {
-                    safeNavigate('techtonic.html');
-                });
-            }
-        } catch (e) {
-            // no-op
-        }
-    }());
 
     // Eksponer for inline onclick-attributter i index.html.
     window.Commands = Commands;
