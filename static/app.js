@@ -615,6 +615,16 @@
         sayHello: function () {
             BridgeApi.call('say', {text: withVolumeMarkup(getSpeech('hello'))});
         },
+        // Techtonic / bar mode quick jokes (restores Techtonic UI handlers)
+        sayTechtonicRobotJoke: function () {
+            BridgeApi.call('say', {text: withVolumeMarkup('Hvorfor sagde robotten hej? Fordi den huskede at hilse!')});
+        },
+        sayTechtonicBarJoke: function () {
+            BridgeApi.call('say', {text: withVolumeMarkup('Bartenderen sagde: Vi serverer ikke bytes her, kun drinks.')});
+        },
+        sayTechtonicFusionJoke: function () {
+            BridgeApi.call('say', {text: withVolumeMarkup('En robot gik ind i en bar og bestilte en opladning.')});
+        },
         sayPrutbanan: function () {
             BridgeApi.call('say', {text: withVolumeMarkup(getSpeech('prutbanan'))});
         },
@@ -701,6 +711,22 @@
     updateVolumeLabel();
     setupVolumeUnlockButton();
     setControlsVisibility(false);
+
+    // Bind ITK banner (brand-banner) as a quick link to Techtonic Bar mode
+    // This avoids editing HTML and restores access via the logo/banner.
+    (function bindBrandBanner() {
+        try {
+            var banner = document.querySelector('.brand-banner');
+            if (banner) {
+                banner.style.cursor = 'pointer';
+                banner.addEventListener('click', function () {
+                    safeNavigate('techtonic.html');
+                });
+            }
+        } catch (e) {
+            // no-op
+        }
+    }());
 
     // Eksponer for inline onclick-attributter i index.html.
     window.Commands = Commands;
