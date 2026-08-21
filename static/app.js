@@ -830,7 +830,8 @@
     }
 
     function setupTechtonicLogoTrigger() {
-        var logo = document.getElementById('itkLogoSecret');
+        // Prefer explicit secret ID but fall back to the visible brand banner.
+        var logo = document.getElementById('itkLogoSecret') || document.querySelector('.brand-banner');
         if (!logo) {
             return;
         }
@@ -850,6 +851,14 @@
             cancelTechtonicHold();
             return false;
         };
+        // Also support quick click to open for convenience (short tap)
+        logo.addEventListener('click', function (ev) {
+            // ignore synthetic clicks if a hold just triggered
+            if (logoHoldTimer) {
+                return;
+            }
+            openTechtonicMode();
+        });
     }
 
     function withVolumeMarkup(text) {
