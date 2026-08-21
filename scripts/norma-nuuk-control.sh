@@ -19,7 +19,22 @@ is_running() {
     local pid
     pid="$(cat "$pid_file" 2>/dev/null || true)"
     [[ -n "$pid" ]] || return 1
-    kill -0 "$pid" 2>/dev/null
+    # Ensure the pid refers to our control server; avoid false-positives from other processes
+    if kill -0 "$pid" 2>/dev/null; then
+        # check proc cmdline for our script
+        if [[ -r "/proc/$pid/cmdline" ]]; then
+            if tr '\0' ' ' <"/proc/$pid/cmdline" | grep -q "norma-nuuk-control-server.py"; then
+                return 0
+            else
+                # stale pidfile pointing to another process
+                return 1
+            fi
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
 }
 
 if ! is_running; then
