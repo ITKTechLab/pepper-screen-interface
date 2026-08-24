@@ -43,12 +43,12 @@
             z-index: 35;
         }
         .language-switch {
-            position: absolute;
+            position: fixed;
             top: 0.5em;
             right: 0.55em;
             display: flex;
             gap: 0.25em;
-            z-index: 40;
+            z-index: 9999;
         }
         .language-btn {
             min-height: 30px;
@@ -64,6 +64,14 @@
             box-shadow: none;
             color: #fff;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .language-btn .flag-icon {
+            width: 28px;
+            height: auto;
+            display: block;
         }
         .language-btn.selected {
             border: 2px solid #ffffff;
@@ -162,9 +170,9 @@
         <div class="hero">
             <img src="itk-logo.png" alt="ITK logo" class="itk-logo" id="itkLogoInTechtonic" />
             <div id="languageSwitch" class="language-switch" aria-label="Language selector">
-                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')">DK</button>
-                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')">EN</button>
-                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')">DE</button>
+                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')"><img src="images/flags/dk.svg" alt="Dansk" class="flag-icon"/></button>
+                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')"><img src="images/flags/en.svg" alt="English" class="flag-icon"/></button>
+                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')"><img src="images/flags/de.svg" alt="Deutsch" class="flag-icon"/></button>
             </div>
             <h1 id="techtonicTitle">Techtonic Bar mode</h1>
             <p id="techtonicSubtitle" class="subtitle">Tryk for at høre jokes fra Norma.</p>
