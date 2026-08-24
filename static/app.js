@@ -28,7 +28,7 @@
                 talkPageTitle: 'Snak med Norma',
                 heroTitle: 'Tryk og se hvad Norma kan!',
                 btnSayHello: 'Sig hej',
-                btnPlayGesture: 'Fortael en joke',
+                btnPlayGesture: 'Fortæl en joke',
                 btnPrutbanan: 'Prutbanan',
                 btnEmotes: 'Leg med Norma!',
                 techtonicPageTitle: 'Techtonic Bar mode',
@@ -357,9 +357,9 @@
         },
         en: {
             robot: [
-                'Why did the robot become a librarian? It could not stop indexing everything.',
+                'Why did the robot become a librarian? It could not stop organising everything.',
                 'My robot says it is creative, but it just copies my bugs with confidence.',
-                'The robot went to therapy because all its feelings were stuck in debug mode.',
+                'The robot went to therapy because all its feelings were stuck in de bug mode.',
                 'Does R2D2 have any brothers? No only transisters, im a progressive robot oh yeeeeah.',
                 'How did the robot cross the river? In a roboat.',
                 'How do you calm a robot dog? press the paws button.',

@@ -235,6 +235,29 @@
         button:hover {
             transform: translateY(-2px);
         }
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9em;
+            margin-top: 1em;
+        }
+        .main-action {
+            min-height: 28vh;
+            font-size: 1.6em;
+            padding: 1.2em;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+            border: 0;
+            color: #fff;
+        }
+        .main-action.green { background: linear-gradient(135deg, #38b56a 0%, #238950 100%); }
+        .main-action.red { background: linear-gradient(135deg, #d65252 0%, #ad3737 100%); }
+        .main-action.pink { background: linear-gradient(135deg, #f37ab0 0%, #de5f96 100%); }
+        .main-action.bar { background: linear-gradient(135deg, #4a90e2 0%, #2f6fb3 100%); }
         input[type="text"] {
             width: 100%;
             max-width: 100%;
@@ -319,27 +342,14 @@
             
         </div>
         <div class="main-controls">
-            <div class="actions">
-                <div class="layer layer-green">
-                    <div class="layer-buttons">
-                        <button id="btnSayHello" class="primary-action" onclick="Commands.sayHello()">Sig hej</button>
-                        <button id="btnPlayGesture" class="primary-action" onclick="Commands.playGesture()">Afspil tilfældig gestus</button>
+                    <div class="actions">
+                        <div class="main-grid">
+                            <button id="btnSayHello" class="main-action green" onclick="Commands.sayHello()">Sig hej</button>
+                            <button id="btnPlayGesture" class="main-action bar" onclick="Commands.playGesture()">Fortæl en joke</button>
+                            <button id="btnPrutbanan" class="main-action red" onclick="Commands.sayPrutbanan()">Prutbanan</button>
+                            <button id="btnEmotes" class="main-action pink" onclick="window.location.href='emotes.html'">Leg med Norma!</button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="layer layer-red">
-                    <div class="say-row">
-                        <button id="btnPrutbanan" class="primary-action" onclick="Commands.sayPrutbanan()">Prutbanan</button>
-                    
-                    </div>
-                </div>
-
-                <div class="layer layer-pink">
-                    <div class="layer-buttons">
-                        <button id="btnEmotes" class="primary-action" onclick="window.location.href='emotes.html'">Leg med Norma!</button>
-                    </div>
-                </div>
-            </div>
             <div class="volume-panel">
                 <h2 id="volumeTitle">Lydniveau</h2>
                 <p id="volumeHint" class="hint">lydkontrol.</p>
