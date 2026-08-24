@@ -890,11 +890,21 @@
                 }
                 setStatus('');
             };
-            xhr.send(JSON.stringify({command: command, params: params || {}}));
+            try {
+                xhr.send(JSON.stringify({command: command, params: params || {}}));
+            } catch (e) {
+                // ignore send errors
+            }
+            // Show which command was sent in the status area for debugging
+            try {
+                setStatus(getText('statusSending', { command: command }));
+            } catch (e) {
+                setStatus(command);
+            }
+            // For say/play_gesture we don't need further UI status updates
             if (command === 'say' || command === 'play_gesture') {
                 return;
             }
-            setStatus('');
         }
     };
 
