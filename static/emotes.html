@@ -31,12 +31,12 @@
             margin-bottom: 1em;
         }
         .language-switch {
-            position: absolute;
+            position: fixed;
             top: 0.7em;
             right: 0.7em;
             display: flex;
             gap: 0.35em;
-            z-index: 40;
+            z-index: 9999;
         }
         .language-btn {
             min-height: 42px;
@@ -47,6 +47,14 @@
             border: 1px solid rgba(255,255,255,0.35);
             background: rgba(255,255,255,0.18);
             box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .language-btn .flag-icon {
+            width: 34px;
+            height: auto;
+            display: block;
         }
         .language-btn.selected {
             border: 2px solid #ffffff;
@@ -155,9 +163,9 @@
     <div class="wrap">
         <div class="hero">
             <div id="languageSwitch" class="language-switch" aria-label="Language selector">
-                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')">🇩🇰</button>
-                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')">🇬🇧</button>
-                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')">🇩🇪</button>
+                <button type="button" class="language-btn" data-lang="da" onclick="Commands.setLanguage('da')"><img src="images/flags/dk.svg" alt="Dansk" class="flag-icon"/></button>
+                <button type="button" class="language-btn" data-lang="en" onclick="Commands.setLanguage('en')"><img src="images/flags/en.svg" alt="English" class="flag-icon"/></button>
+                <button type="button" class="language-btn" data-lang="de" onclick="Commands.setLanguage('de')"><img src="images/flags/de.svg" alt="Deutsch" class="flag-icon"/></button>
             </div>
             <h1 id="emotesTitle">Se Norma's seje muligheder!</h1>
             <p id="emotesSubtitle">Tryk på en knap og se Norma lave ting!</p>
