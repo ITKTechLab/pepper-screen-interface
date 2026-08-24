@@ -239,17 +239,19 @@
         .main-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6em;
+            gap: 0.6em; /* horizontal gap (older WebViews sometimes ignore gap vertically) */
             margin-top: 1em;
             height: 60vh;
             width: 100%;
             box-sizing: border-box;
+            align-content: flex-start;
         }
         .main-action {
             box-sizing: border-box;
-            /* Take half the width and half the height of the grid */
-            flex: 0 0 50%;
-            height: calc(50% - 0.3em);
+            /* Account for margins so two items fit precisely */
+            flex: 0 0 calc(50% - 0.6em);
+            margin: 0.3em;
+            height: calc(50% - 0.6em);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -261,6 +263,7 @@
             color: #fff;
             font-size: 6.4em;
             line-height: 1;
+            background-clip: padding-box;
         }
         .main-action.green { background: linear-gradient(135deg, #38b56a 0%, #238950 100%); }
         .main-action.red { background: linear-gradient(135deg, #d65252 0%, #ad3737 100%); }
@@ -340,11 +343,16 @@
             .main-grid { height: 70vh; gap: 0.45em; }
         }
         /* Reduce font-size by ~25% for three buttons so text fits */
-        #btnPlayGesture, #btnPrutbanan, #btnEmotes {
+        #btnPlayGesture, #btnEmotes {
             font-size: 4.8em;
         }
+        /* Make the Prutbanan button slightly smaller to accommodate long German text */
+        #btnPrutbanan {
+            font-size: 3.8em;
+        }
         @media (max-width: 760px) {
-            #btnPlayGesture, #btnPrutbanan, #btnEmotes { font-size: 2.4em; }
+            #btnPlayGesture, #btnEmotes { font-size: 2.4em; }
+            #btnPrutbanan { font-size: 1.9em; }
         }
     </style>
 </head>
