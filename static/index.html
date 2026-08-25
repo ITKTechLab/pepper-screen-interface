@@ -237,40 +237,53 @@
         button:hover {
             transform: translateY(-2px);
         }
-        /* Use flexbox for reliable 2x2 layout on older WebViews */
+        /* Use a very simple absolute-position 2x2 grid because older Pepper WebViews
+           are inconsistent with flex/grid support. Each button occupies one quadrant. */
         .main-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6em; /* horizontal gap (older WebViews sometimes ignore gap vertically) */
+            position: relative;
             margin-top: 1em;
             height: 60vh;
             width: 100%;
             box-sizing: border-box;
-            align-content: flex-start;
+            overflow: hidden;
         }
         .main-action {
+            position: absolute;
             box-sizing: border-box;
-            /* Account for margins so two items fit precisely */
-            flex: 0 0 calc(50% - 0.6em);
-            margin: 0.3em;
-            height: calc(50% - 0.6em);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 0.6em 0.8em;
+            padding: 0.7em 0.9em;
             border-radius: 18px;
             box-shadow: 0 10px 24px rgba(0,0,0,0.22);
             border: 0;
             color: #fff;
             font-size: 6.4em;
             line-height: 1;
-            min-height: 0; /* override global button min-height so flex centering works consistently */
+            min-height: 0;
             vertical-align: middle;
             background-clip: padding-box;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            width: calc(50% - 0.55em);
+            height: calc(50% - 0.55em);
+        }
+        #btnSayHello {
+            top: 0;
+            left: 0;
+        }
+        #btnPlayGesture {
+            top: 0;
+            right: 0;
+        }
+        #btnPrutbanan {
+            bottom: 0;
+            left: 0;
+        }
+        #btnEmotes {
+            bottom: 0;
+            right: 0;
         }
         .main-action.green { background: linear-gradient(135deg, #38b56a 0%, #238950 100%); }
         .main-action.red { background: linear-gradient(135deg, #d65252 0%, #ad3737 100%); }
@@ -347,14 +360,10 @@
                 padding: 1.2em 1.2em 6.2em 1.2em;
             }
             .main-action { font-size: 3.2em; }
-            .main-grid { height: 70vh; gap: 0.45em; }
+            .main-grid { height: 70vh; }
         }
         @media (pointer: coarse) {
-            .main-grid {
-                gap: 0.8em;
-            }
             .main-action {
-                margin: 0.45em;
                 padding: 0.8em 0.9em;
             }
         }
