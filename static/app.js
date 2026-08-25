@@ -19,6 +19,7 @@
     var autoHideTimer = null;
     var isVolumeControlsVisible = false;
     var lastTechtonicJokeByBucket = {};
+    var navigationLock = false;
 
     var I18N = {
         da: {
@@ -831,6 +832,7 @@
 
     function setupTechtonicLogoTrigger() {
         // Prefer explicit secret ID but fall back to the visible brand banner.
+        // Only long hold is allowed to avoid accidental page jumps on a tablet.
         var logo = document.getElementById('itkLogoSecret') || document.querySelector('.brand-banner');
         if (!logo) {
             return;
@@ -851,14 +853,6 @@
             cancelTechtonicHold();
             return false;
         };
-        // Also support quick click to open for convenience (short tap)
-        logo.addEventListener('click', function (ev) {
-            // ignore synthetic clicks if a hold just triggered
-            if (logoHoldTimer) {
-                return;
-            }
-            openTechtonicMode();
-        });
     }
 
     function withVolumeMarkup(text) {
@@ -866,18 +860,77 @@
         var vol = clampVolume(currentVolume);
         return '\\vol=' + String(vol) + '\\' + spokenText + '\\rst\\';
     }
-    
+
+    function getTabletHomeUrl() {
+        var base = window.location.origin || (window.location.protocol + '//' + window.location.host);
+        return base + '/';
+    }
+
     function safeNavigate(path) {
-        if (!path) {
+        if (!path || navigationLock) {
             return;
         }
+
+        var target = String(path).replace(/^\//, '');
+        var current = String(window.location.pathname || '').replace(/^\//, '');
+        if (!target || target === current || current.indexOf(target) !== -1) {
+            return;
+        }
+
+        navigationLock = true;
+        setTimeout(function () {
+            navigationLock = false;
+        }, 800);
         window.location.href = path;
+    }
+
+    function setupTabletRecoveryWatchdog() {
+        var lastRecoveryAt = 0;
+        var recoveryIntervalMs = 5000;
+
+        function maybeRecover() {
+            var now = Date.now();
+            if (now - lastRecoveryAt < recoveryIntervalMs) {
+                return;
+            }
+            lastRecoveryAt = now;
+
+            try {
+                BridgeApi.call('show_tablet_url', {url: getTabletHomeUrl()});
+            } catch (e) {
+                // Ignore recovery errors; page remains safe by default.
+            }
+        }
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                maybeRecover();
+            }
+        });
+
+        window.addEventListener('blur', maybeRecover);
+        window.addEventListener('focus', function () {
+            lastRecoveryAt = 0;
+        });
+
+        setInterval(function () {
+            if (document.hidden || !document.hasFocus()) {
+                maybeRecover();
+            }
+        }, recoveryIntervalMs);
     }
 
     var BridgeApi = {
         // Send en kommando til /api/command (lokal proxy -> pepper-robot-bridge).
         // params kan udelades; statusbeskeder vises i #status.
         call: function (command, params) {
+            if (!command || typeof command !== 'string') {
+                return;
+            }
+            if (command.toLowerCase() === 'hide_tablet') {
+                return;
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/api/command', true);
             xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
@@ -933,7 +986,8 @@
             setStatus(line);
         },
         hideTablet: function () {
-            BridgeApi.call('hide_tablet', {});
+            // Ignore accidental hide commands to keep the tablet app stable.
+            setStatus('Tabletvisning forbliver aktiv.');
         },
         getStatus: function () {
             BridgeApi.call('get_status', {});
@@ -1033,6 +1087,7 @@
     updateVolumeLabel();
     setupVolumeUnlockButton();
     setupTechtonicLogoTrigger();
+    setupTabletRecoveryWatchdog();
     setControlsVisibility(false);
 
     // Eksponer for inline onclick-attributter i index.html.
