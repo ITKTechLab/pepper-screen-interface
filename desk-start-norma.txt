@@ -1,0 +1,16 @@
+Norma start (brug denne i terminalen):
+
+cd /home/norma/Normachat/pepper-screen-interface
+./scripts/start-local.sh --operator-ip 192.168.1.165 --robot-ip 192.168.1.156
+
+Hvis du vil starte bridge og proxy separat:
+
+cd /home/norma/Normachat/pepper-screen-interface
+./scripts/start-local.sh --operator-ip 192.168.1.165 --robot-ip 192.168.1.156 --skip-bridge
+
+eller hvis du vil starte bare proxyen lokalt:
+
+cd /home/norma/Normachat/pepper-screen-interface
+python3 app.py --host 0.0.0.0 --port 5000 --bridge-host localhost --bridge-port 8080
+
+Sørg for, at Pepper-robotten er online, før du kører kommandoen.
